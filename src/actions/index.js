@@ -49,3 +49,24 @@ export const dbTest = () => {
 
     }
 }
+
+//VCBC actions below
+
+export const login = (user) => {
+    return dispatch => {
+        console.log('action fired!', user.username);
+        axios.post(`/api/user/login`,{userlogin: user})
+    }
+}
+
+
+export const register = (user) => {
+    return dispatch => {
+        console.log('register action fired!', user);
+        axios.post(`/api/user/register`, {userreg: user})
+        .then( res => {
+          console.log('this is the response ',res);
+        })
+
+    }
+}
