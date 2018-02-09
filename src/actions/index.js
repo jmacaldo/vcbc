@@ -49,3 +49,52 @@ export const dbTest = () => {
 
     }
 }
+
+//VCBC actions below
+export const NO_AUTH = "NO_AUTH"
+export const noAuth = () => {
+    return { type: NO_AUTH }
+}
+
+export const AUTHED = "AUTHED"
+export const auth = (data) => {
+    return { type: AUTHED, data}
+}
+
+export const IS_REGISTERED = "IS_REGISTERED"
+export const reg = (data) => {
+    return { type: IS_REGISTERED, data}
+}
+
+//
+
+
+
+//
+
+
+export const login = (user) => {
+    return dispatch => {
+        console.log('action fired!', user.username);
+        axios.post(`/api/user/login`,{userlogin: user})
+        .then( res => {
+          console.log('this is the auth response ',res);
+          dispatch(auth(res.data))
+        })
+
+    }
+}
+
+
+export const register = (user) => {
+    return dispatch => {
+
+        console.log('register action fired!', user);
+        axios.post(`/api/user/register`, {userreg: user})
+        .then( res => {
+          console.log('this is the response ',res.data.firstname);
+          dispatch(reg(res.data))
+        })
+
+    }
+}

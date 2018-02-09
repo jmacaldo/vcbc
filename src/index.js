@@ -9,9 +9,14 @@ import { applyMiddleware, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 
 const middleware = applyMiddleware(thunk, createLogger());
-export const store = createStore(rootReducer, middleware);
+const store = createStore(rootReducer, composeWithDevTools(
+  middleware,
+));
+
 
 ReactDOM.render(
   <Provider store={store}>
