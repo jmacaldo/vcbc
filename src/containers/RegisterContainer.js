@@ -6,7 +6,8 @@ import Register from '../components/Register'
 
 function mapStateToProps(state) {
   return {
-    results: state.demo.results
+    results: state.demo.results,
+    isregistered: state.demo.isRegistered
   }
 }
 

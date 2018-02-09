@@ -30,6 +30,10 @@ class Register extends Component {
 
           <button type="submit">Submit!</button>
         </Form>
+
+        {this.props.isregistered &&
+          <p>You've succefully created an account! Click <Link to={`/`}>HERE</Link> to sign in!</p>
+       }
       </div>
     );
   }
