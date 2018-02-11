@@ -27,20 +27,14 @@ class Login extends Component {
             <Control.text type="password" model="userlogin.password" id="userlogin.password" />
 
             <button type="submit">Submit!</button>
-
-            {!this.props.isRegistered &&
-              <p>Dont have an account? Click <Link to={`/register`}>HERE</Link> to register for one!</p>
-           }
-
-
           </Form>
 
-  			 	{!this.props.isauthenticated &&
-            <h3>You must log in</h3>
+          {!this.props.isauthenticated &&
+            <p>Dont have an account? Click <Link to={`/register`}>HERE</Link> to register for one!</p>
           }
 
           {this.props.isauthenticated &&
-  					<h3> Welcome to VCBC, {this.props.user.firstname}!  Click <Link to={`/main`}>HERE</Link> to go to the main page</h3>
+  					<p> Welcome to VCBC, {this.props.user.firstname}!  Click <Link to={`/main`}>HERE</Link> to go to the main page</p>
   			 	}
 
 

@@ -66,12 +66,6 @@ export const reg = (data) => {
     return { type: IS_REGISTERED, data}
 }
 
-//
-
-
-
-//
-
 
 export const login = (user) => {
     return dispatch => {

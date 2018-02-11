@@ -31,8 +31,24 @@ const seedReviews = () => db.Promise.map([
  {rating: 3, review_text: "can be better",product_id:4},
  {rating: 3, review_text: "should be better",product_id:6},
  {rating: 4, review_text: "good price",product_id:7},
- {rating: 4, review_text: "just like description",product_id:1}
+ {rating: 4, review_text: "just like description",product_id:1},
  ], review => db.model('reviews').create(review));
+
+ //vcbc db seed
+ const seedRecipes = () => db.Promise.map([
+  {title: "Vegan Potato Curry", category: ["Indian", "Mains"], description:"a vegan take on an old classci", preparation:"Slice potatoes make the rest of the dish!", yield: 4},
+  {title: "Fetuccine Alfredo", category: ["Italian", "Mains"], description:"a dairy free pasta dish", preparation:"Prepare pasta make the rest of the dish", yield: 8},
+  {title: "Green Monster Smoothie", category: ["Smoothies", "Breakfast"], description:"quick morning breakfast", preparation:"Turn the blender on!", yield: 1}
+], recipe => db.model('recipes').create(recipe));
+
+const seedIngredients = () => db.Promise.map([
+ {quantity: 4, measure: "pc", item: "potatoes", prep: "diced", recipe_id:1},
+ {quantity: 1, measure: "pc", item: "yellow onion", prep: "chopped", recipe_id:1},
+ {quantity: 3, measure: "cloves", item: "garlic", prep: "minced", recipe_id:1},
+ {quantity: 1, measure: "can", item: "diced tomatoes", prep: "none", recipe_id:1}
+], ingredient => db.model('ingredients').create(ingredient));
+
+
 
  db.didSync
    .then(() => db.sync({force: true}))
@@ -40,5 +56,9 @@ const seedReviews = () => db.Promise.map([
    .then(products => console.log(`Seeded ${products.length} products OK`))
    .then(seedReviews)
    .then(reviews => console.log(`Seeded ${reviews.length} reviews OK`))
+   .then(seedRecipes)
+   .then(recipes => console.log(`Seeded ${recipes.length} recipes OK`))
+   .then(seedIngredients)
+   .then(ingredients => console.log(`Seeded ${ingredients.length} ingredients OK`))
    .catch(error => console.error(error))
    .finally(() => db.close())
