@@ -8,7 +8,7 @@ const Recipe = db.define('recipes', {
   	type: Sequelize.STRING,
   	allowNull: false
   },
-  tags: {
+  category: {
   	type: Sequelize.STRING,
   	allowNull: false
   },
@@ -16,7 +16,7 @@ const Recipe = db.define('recipes', {
   	type: Sequelize.TEXT,
   	allowNull: false
   },
-  source: {
+  preparation: {
   	type: Sequelize.STRING,
   	allowNull: false
   },
@@ -27,10 +27,6 @@ const Recipe = db.define('recipes', {
   img: {
   	type: Sequelize.STRING,
   	allowNull: false
-  },
-  cooktime: {
-    type: Sequelize.STRING,
-    allowNull: false
   }
 
 });

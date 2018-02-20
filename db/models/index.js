@@ -10,7 +10,10 @@ const Ingredients = require('./ingredients');
 Product.hasMany(Review);
 Review.belongsTo(Product);
 
-Recipe.hasOne(Ingredients);
-Ingredients.belongsTo(Recipe);
+// Recipe.hasOne(Ingredients);
+// Ingredients.belongsTo(Recipe);
+
+Users.hasMany(Recipe);
+Recipe.belongsTo(Users);
 
 module.exports = {Product, Review, Users, Recipe, Ingredients};

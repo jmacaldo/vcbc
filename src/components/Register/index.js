@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Control, Form, actions } from 'react-redux-form';
 import './style.css';
+import Nav from '../Nav'
 
 class Register extends Component {
   handleSubmit(user) {
@@ -13,6 +14,7 @@ class Register extends Component {
     const { className, ...props } = this.props;
     return (
       <div className={classnames('Register', className)} {...props}>
+        <Nav />
         <h1>VCBC New User Registration</h1>
         <Form model="userreg" onSubmit={(user) => this.handleSubmit(user)}>
 

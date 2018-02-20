@@ -8,7 +8,17 @@ function mapStateToProps(state) {
   return {
     results: state.demo.results,
     isauthenticated: state.demo.isAuthenticated,
-    user: state.demo.user
+    user: state.demo.user,
+    allrecipes: state.demo.allrecipes,
+    detail: state.demo.detail,
+    isMainActivated: state.demo.isMainActivated,
+    isRegActivated: state.demo.isRegActivated,
+    isSubmitActivated: state.demo.isSubmitActivated,
+    isToolsActivated: state.demo.isToolsActivated,
+    isregistered: state.demo.isRegistered,
+    isFocusActivated: state.demo.isFocusActivated,
+    recipeFocus: state.demo.recipeFocus
+
   }
 }
 
