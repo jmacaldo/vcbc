@@ -2,6 +2,7 @@ const db = require('../db') //this is required
 const Recipe = require('../db/models/recipe');
 const Ingredient = require('../db/models/ingredients');
 const Users = require('../db/models/users');
+const Comments = require('../db/models/comments');
 
 const router = require('express').Router()
 
@@ -46,16 +47,18 @@ router.post('/ingredient', function(req, res, next) {
   });
 });
 
-//find ingredients by recipe
-router.post('/findbyid', function(req, res, next) {
-  Ingredient.sync().then(function(){
-    Ingredient.findAll({
+//find comments by recipe
+router.post('/findbyrecipe', function(req, res, next) {
+  Comments.sync().then(function(){
+    Comments.findAll({
+      include: [Users],
       where: {
         recipe_id: req.body.id
       }
     })
     .then(
       function(result){
+        console.log(result);
         res.status(200).send(result);
       }
     ).catch(next);

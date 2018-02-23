@@ -32,6 +32,12 @@ const initialIngredientState = {
   prep: ''
 };
 
+const initialCommentState = {
+  comment: '',
+  cooktime: ''
+
+};
+
 const Reducers = combineReducers({
     demo,
     routing: routerReducer,
@@ -39,7 +45,8 @@ const Reducers = combineReducers({
       userreg: initialRegState,
       userlogin: initialLoginState,
       recipe: initialRecipeState,
-      ingredient: initialIngredientState
+      ingredient: initialIngredientState,
+      comment: initialCommentState
 
     })
 });

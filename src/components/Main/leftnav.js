@@ -20,7 +20,7 @@ export default class Nav extends Component {
 
     return (
       <div>
-        <h3>VCBC</h3>
+        <h3 onClick={this.props.actions.loginbtn}>VCBC</h3>
         {this.props.isauthenticated &&
           <p> Welcome to VCBC, {this.props.user.firstname}! </p>
         }
@@ -28,15 +28,16 @@ export default class Nav extends Component {
         <List>
         {!this.props.isauthenticated &&
           <div>
-          <ListItem onClick={this.props.actions.loginbtn} primaryText="Login" leftIcon={<ContentInbox />} />
-          <ListItem onClick={this.props.actions.registerbtn} primaryText="Register" leftIcon={<ActionGrade />} />
+          <ListItem onClick={this.props.actions.registerbtn} primaryText="Login" leftIcon={<ActionGrade />} />
+
           </div>
         }
-          <ListItem onClick={this.props.actions.loginbtn} primaryText="Main" leftIcon={<ContentInbox />} />
-          <ListItem onClick={this.props.actions.submitbtn} primaryText="Submit a recipe" leftIcon={<ContentCreate />} />
+
+
 
           {this.props.isauthenticated &&
             <div>
+              <ListItem onClick={this.props.actions.submitbtn} primaryText="Submit a recipe" leftIcon={<ContentCreate />} />
               <ListItem primaryText="Logout" leftIcon={<ContentDrafts />} />
             </div>
           }

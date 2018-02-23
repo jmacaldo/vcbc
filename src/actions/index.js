@@ -26,6 +26,11 @@ export const expressTest = () => {
     }
 }
 
+export const COMMENTS = "COMMENTS";
+export const commentsfetch = (comments) => {
+  return { type: COMMENTS, comments}
+}
+
 export const DB_TEST_START = "DB_TEST_START";
 export const dbTestStart = () => {
     return { type: DB_TEST_START }
@@ -98,10 +103,8 @@ export const ACTIVATE_TOOLS = "ACTIVATE_TOOLS"
 //login authentication
 export const login = (user) => {
     return dispatch => {
-        console.log('action fired!', user.username);
         axios.post(`/api/user/login`,{userlogin: user})
         .then( res => {
-          console.log('this is the auth response ',res);
           dispatch(auth(res.data))
         })
 
@@ -124,6 +127,10 @@ export const submitrecipe = (recipe, id) => {
         axios.post(`/api/recipe/submit`, {recipe: recipe, id: id})
         .then( res => {
           dispatch(recipesubmit(res.data))
+        })
+        axios.post(`/api/recipe/findall`)
+        .then(res => {
+           dispatch(recipefindall(res.data))
         })
     }
 }
@@ -159,6 +166,7 @@ export const detail = (detail) => {
   }
 }
 
+//these relate to nav buttons
 export const loginbtn =()=> {
   return { type: ACTIVATE_MAIN}
 }
@@ -173,4 +181,31 @@ export const submitbtn =()=> {
 
 export const toolsbtn =()=> {
   return {type: ACTIVATE_TOOLS}
+}
+
+//fetch comments for a recipe that has been brought to focus
+export const findbyrecipe = (detail) => {
+  console.log(detail.id);
+  return dispatch => {
+      axios.post(`/api/comments/findbyrecipe`, {id: detail.id})
+      .then( res => {
+         dispatch(commentsfetch(res.data))
+      })
+  }
+
+}
+
+//submit a recipe comment to the db
+export const submitComment = (comment) => {
+  console.log('backend comment');
+  console.log(comment);
+    // return dispatch => {
+    //   axios.post(`/api/recipe/ingredient`, {ingredient: ingredient, id: recipe.id})
+    //   .then( res => {
+    //     axios.post(`/api/recipe/findbyid`, {id: recipe.id})
+    //     .then(res => {
+    //       dispatch(ingredientsubmit(res, recipe))
+    //     })
+    //   })
+    // }
 }

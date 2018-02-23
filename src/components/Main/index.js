@@ -5,7 +5,6 @@ import { Control, Form, actions } from 'react-redux-form';
 import './style.css';
 import PropTypes from 'prop-types';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import FlexView from 'react-flexview';
 import Flexbox from 'flexbox-react';
 import BottomNavigationExampleSimple from '../Nav/bottomnav';
@@ -14,7 +13,12 @@ import Nav from '../../containers/LeftNavContainer'
 import Paper from 'material-ui/Paper';
 import LoadingGif from './loading.gif'
 import Chip from 'material-ui/Chip';
-import Focus from './focus'
+import Focus from './focus';
+import AddRecipe from './addrecipe'
+import Icon from 'material-ui/svg-icons/action/gif'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Login extends Component {
   handleSubmit(user) {
@@ -22,7 +26,8 @@ class Login extends Component {
   }
 
   handleDetail(detail) {
-    this.props.actions.detail(detail)
+    this.props.actions.detail(detail);
+    this.props.actions.findbyrecipe(detail);
   }
 
 
@@ -32,11 +37,24 @@ class Login extends Component {
 
   componentWillMount(){
     window.addEventListener('load', this.props.actions.allrecipes);
+
   }
 
   componentDidMount() {
 
   }
+
+  state = {
+    open: false,
+  };
+
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
   render() {
 
     //pushing all contents of recipe DB into an array for rendering in the DOM
@@ -53,23 +71,21 @@ class Login extends Component {
      search.push(allrecipes[i].title)
     }
 
-    //array for Tags
-    // let tagsarr = [];
-    // let arr = this.props.recipeFocus.tags
-     console.log('tags_'+this.props.recipeFocus);
-    // arr.split(',')
-    //
+    //array push for comments
 
-    //
-    // for(let i = 0; i <= (tags.length-1); i++) {
-    //   tagsarr.push(<Chip style={styles.chip}>
-    //          {tags[i]}
-    //     </Chip>);
-    // }
-    //
-    // <Chip style={styles.chip}>
-    //      Text Chip
-    // </Chip>
+    let allcomments = this.props.comments;
+    console.log(allcomments);
+
+
+    const actions = [
+     <FlatButton
+       label="Close"
+       primary={true}
+       onClick={this.handleClose}
+     />
+   ];
+
+
 
 
 
@@ -85,6 +101,16 @@ class Login extends Component {
                <Paper style={paper} zDepth={3} rounded={true}>
 
                  <Search data={search}/>
+                   <div>
+          <RaisedButton label="Modal Dialog" onClick={this.handleOpen} />
+          <Dialog
+            actions={actions}
+            modal={true}
+            open={this.state.open}
+          >
+              <Focus data={this.props.recipeFocus} />
+          </Dialog>
+        </div>
 
                  <div style={sectionStyle}>
                    <h5>Previous Weeks Recipes</h5>
@@ -143,8 +169,11 @@ class Login extends Component {
         }
 
         {this.props.isSubmitActivated &&
+
+
+
             <Paper style={paper} zDepth={3} rounded={true} >
-              <Form model="recipe" onSubmit={(recipe) => this.handleSubmitRecipe(recipe)}>
+              <Form model="recipe" onSubmit={(recipe) => this.props.actions.submitrecipe(recipe, this.props.user.id)}>
 
                 <label htmlFor="recipe.title">Recipe Name</label>
                 <Control.text model="recipe.title" id="recipe.title" />
@@ -167,6 +196,8 @@ class Login extends Component {
                 <button type="submit">Submit</button>
                 </Form>
             </Paper>
+
+
         }
 
         {this.props.isToolsActivated &&
@@ -176,7 +207,7 @@ class Login extends Component {
         }
 
         {this.props.isFocusActivated &&
-            <Focus data={this.props.recipeFocus} />
+            <Focus data={this.props.recipeFocus} auth={this.props.isauthenticated} comments={this.props.comments} submitComment={this.props.actions.submitComment}/>
         }
 
 

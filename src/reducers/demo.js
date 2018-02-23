@@ -1,4 +1,4 @@
-import { EXPRESS_TEST_RESULTS, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS } from '../actions';
+import { EXPRESS_TEST_RESULTS, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS, COMMENTS } from '../actions';
 
 const initialState = {
     results: '',
@@ -14,7 +14,9 @@ const initialState = {
     isToolscActivated: false,
     isLoading: true,
     recipeFocus: [],
-    isFocusActivated: false
+    isFocusActivated: false,
+    diagOpen: false,
+    comments: []
 
 }
 
@@ -46,7 +48,8 @@ const demo = (state = initialState, action) => {
             return { ...state, isMainActivated: false, isRegActivated: false, isSubmitActivated: false, isToolscActivated: true, isFocusActivated: false}
         case RECIPE_FOCUS:
             return { ...state, isMainActivated: false, isRegActivated: false, isSubmitActivated: false, isToolscActivated: false, isFocusActivated: true, recipeFocus: action.detail}
-
+        case COMMENTS:
+            return {...state, comments: action.comments}
         default:
             return state
     }
