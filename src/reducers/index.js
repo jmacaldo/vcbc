@@ -16,12 +16,37 @@ const initialLoginState = {
   password: ''
 };
 
+const initialRecipeState = {
+  title: '',
+  tags: '',
+  description: '',
+  source: '',
+  yield: '',
+  cooktime: ''
+};
+
+const initialIngredientState = {
+  quantity: '',
+  measure: '',
+  item: '',
+  prep: ''
+};
+
+const initialCommentState = {
+  comment: '',
+  cooktime: ''
+
+};
+
 const Reducers = combineReducers({
     demo,
     routing: routerReducer,
     ...createForms({
       userreg: initialRegState,
-      userlogin: initialLoginState
+      userlogin: initialLoginState,
+      recipe: initialRecipeState,
+      ingredient: initialIngredientState,
+      comment: initialCommentState
 
     })
 });

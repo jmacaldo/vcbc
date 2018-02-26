@@ -34,6 +34,7 @@ router.post('/register', function(req, res, next) {
         firstname: req.body.userreg.firstname,
         lastname: req.body.userreg.lastname,
         username: req.body.userreg.username,
+        img: req.body.img,
         password: hash
       }).then(result => {
           res.status(200).send(result);
