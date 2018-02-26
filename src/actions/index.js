@@ -30,6 +30,9 @@ export const COMMENTS = "COMMENTS";
 export const commentsfetch = (comments) => {
   return { type: COMMENTS, comments}
 }
+export const commentsupdate = (comments) => {
+  return { type: COMMENTS, comments}
+}
 
 export const DB_TEST_START = "DB_TEST_START";
 export const dbTestStart = () => {
@@ -111,20 +114,45 @@ export const login = (user) => {
     }
 }
 
+//filename global var
+var avatarimgarr=[]
+var recipeimgarr=[]
+
+
 //register a user
 export const register = (user) => {
     return dispatch => {
-        axios.post(`/api/user/register`, {userreg: user})
+        axios.post(`/api/user/register`, {userreg: user, img:avatarimgarr[0]})
         .then( res => {
           dispatch(reg(res.data))
         })
     }
 }
 
+
+export const avatarimg =(filename) =>{
+   avatarimgarr.push(filename)
+   console.log('this is the filename');
+   console.log(avatarimgarr[0]);
+  return dispatch => {
+  }
+}
+
+export const recipeimg =(filename) =>{
+   recipeimgarr.push(filename)
+   console.log('this is the filename');
+   console.log(recipeimgarr[0]);
+  return dispatch => {
+  }
+}
+
+
+
 //submit a recipe
-export const submitrecipe = (recipe, id) => {
+export const submitrecipe = (recipe, id,img) => {
+  console.log(id);
     return dispatch => {
-        axios.post(`/api/recipe/submit`, {recipe: recipe, id: id})
+        axios.post(`/api/recipe/submit`, {recipe: recipe, id: id, img:recipeimgarr[0]})
         .then( res => {
           dispatch(recipesubmit(res.data))
         })
@@ -195,17 +223,24 @@ export const findbyrecipe = (detail) => {
 
 }
 
-//submit a recipe comment to the db
-export const submitComment = (comment) => {
-  console.log('backend comment');
-  console.log(comment);
-    // return dispatch => {
-    //   axios.post(`/api/recipe/ingredient`, {ingredient: ingredient, id: recipe.id})
-    //   .then( res => {
-    //     axios.post(`/api/recipe/findbyid`, {id: recipe.id})
-    //     .then(res => {
-    //       dispatch(ingredientsubmit(res, recipe))
-    //     })
-    //   })
-    // }
+//submit a recipe comment to the db and then update state with new comment
+export const submitComment = (comment, recipeid, userid) => {
+  return dispatch => {
+      axios.post(`/api/comments/submit`, {comment: comment, recipeid: recipeid, userid: userid})
+      .then( res => {
+        axios.post(`/api/comments/findbyrecipe`, {id: recipeid})
+        .then( res => {
+           dispatch(commentsfetch(res.data))
+        })
+      })
+  }
+}
+
+//file upload function
+export const uploader =(file)=>{
+  console.log('action: '+file);
+  return dispatch => {
+    axios.post(`/api/uploader/image`, {file: file})
+
+  }
 }

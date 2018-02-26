@@ -57,9 +57,9 @@ const seedIngredients = () => db.Promise.map([
 ], ingredient => db.model('ingredients').create(ingredient));
 
 const seedUsers = () => db.Promise.map([
- {firstname: 'Joven', lastname: 'Macaldo', username: 'jmacaldo', password: 'secret'},
- {firstname: 'Martina', lastname: 'Macaldo', username: 'martina', password: 'secret'},
- {firstname: 'Yanek', lastname: 'user', username: 'yanekTheCat', password: 'secret'}
+ {firstname: 'Joven', lastname: 'Macaldo', username: 'jmacaldo', password: 'secret', img:'defaultavatar.png'},
+ {firstname: 'Martina', lastname: 'Macaldo', username: 'martina', password: 'secret', img:'defaultavatar.png'},
+ {firstname: 'Yanek', lastname: 'user', username: 'yanekTheCat', password: 'secret', img:'defaultavatar.png'}
 
 ], user => db.model('users').create(user));
 

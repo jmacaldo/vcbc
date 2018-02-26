@@ -9,17 +9,13 @@ const router = require('express').Router()
 
 //add a recipe to the DB
 router.post('/submit', function(req, res, next) {
-  console.log('recipe submit backend fired!', req.body.recipe.yield);
-  Recipe.sync().then(function(){
-    Recipe.create({
-      title: req.body.recipe.title,
-      tags: req.body.recipe.tags,
-      description: req.body.recipe.description,
-      source: req.body.recipe.source,
-      yield: req.body.recipe.yield,
-      cooktime: req.body.recipe.cooktime,
-      img: '1394028690291.jpeg',
-      user_id: req.body.id
+  console.log('comment backend!', req.body.comment, req.body.recipeid, req.body.userid);
+  Comments.sync().then(function(){
+    Comments.create({
+      comment: req.body.comment.comment,
+      cooktime: req.body.comment.cooktime,
+      user_id: req.body.userid,
+      recipe_id: req.body.recipeid
 
     }).then(result => {
         res.status(200).send(result);

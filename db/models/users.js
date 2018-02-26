@@ -20,6 +20,10 @@ const Users = db.define('users', {
   	type: Sequelize.STRING,
   	allowNull: false
   },
+  img: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
 })
 
 module.exports = Users;

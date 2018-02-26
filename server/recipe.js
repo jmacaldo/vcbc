@@ -17,7 +17,7 @@ router.post('/submit', function(req, res, next) {
       source: req.body.recipe.source,
       yield: req.body.recipe.yield,
       cooktime: req.body.recipe.cooktime,
-      img: '1394028690291.jpeg',
+      img: req.body.img,
       user_id: req.body.id
 
     }).then(result => {

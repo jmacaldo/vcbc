@@ -11,14 +11,21 @@ import BottomNavigationExampleSimple from '../Nav/bottomnav';
 import Search from './search'
 import Nav from '../../containers/LeftNavContainer'
 import Paper from 'material-ui/Paper';
+import ReactS3 from 'react-s3';
 import LoadingGif from './loading.gif'
 import Chip from 'material-ui/Chip';
-import Focus from './focus';
+import Focus from '../../containers/FocusContainer';
 import AddRecipe from './addrecipe'
 import Icon from 'material-ui/svg-icons/action/gif'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import ReactS3Uploader from 'react-s3-uploader';
+import Sample from './sample.jpg'
+import AppBarExampleComposition from './appbar'
+require('dotenv').config()
+
+
 
 class Login extends Component {
   handleSubmit(user) {
@@ -32,7 +39,7 @@ class Login extends Component {
 
 
   handleSubmitRecipe(recipe) {
-    this.props.actions.submitrecipe(recipe);
+    this.props.actions.submitrecipe(recipe, this.props.user.id);
   }
 
   componentWillMount(){
@@ -52,10 +59,31 @@ class Login extends Component {
     this.setState({open: true});
   };
 
+
+
   handleClose = () => {
     this.setState({open: false});
   };
+
+  onUploadStart =(file,next)=>{
+    this.props.actions.filename(file.name)
+    next(file)
+  }
+
+  onUploadFinish=(file)=>{
+    this.props.actions.recipeimg(file.filename.split('/')[1])
+  }
+
+
+
+
   render() {
+
+
+
+
+
+
 
     //pushing all contents of recipe DB into an array for rendering in the DOM
     let rows = [];
@@ -76,7 +104,6 @@ class Login extends Component {
     let allcomments = this.props.comments;
     console.log(allcomments);
 
-
     const actions = [
      <FlatButton
        label="Close"
@@ -94,22 +121,20 @@ class Login extends Component {
       <div className={classnames('App', className)} {...props}>
         <Flexbox>
 
-          <Nav />
+
         {this.props.isMainActivated &&
 
             <div>
-               <Paper style={paper} zDepth={3} rounded={true}>
+              <AppBarExampleComposition />
 
+               <Paper style={paper} zDepth={3} rounded={true}>
                  <Search data={search}/>
+
+
+
+
                    <div>
-          <RaisedButton label="Modal Dialog" onClick={this.handleOpen} />
-          <Dialog
-            actions={actions}
-            modal={true}
-            open={this.state.open}
-          >
-              <Focus data={this.props.recipeFocus} />
-          </Dialog>
+
         </div>
 
                  <div style={sectionStyle}>
@@ -175,6 +200,13 @@ class Login extends Component {
             <Paper style={paper} zDepth={3} rounded={true} >
               <Form model="recipe" onSubmit={(recipe) => this.props.actions.submitrecipe(recipe, this.props.user.id)}>
 
+                <ReactS3Uploader
+                signingUrl="/s3/sign"
+                signingUrlMethod="GET"
+                s3path="recipes/"
+                onFinish={this.onUploadFinish}
+                />
+
                 <label htmlFor="recipe.title">Recipe Name</label>
                 <Control.text model="recipe.title" id="recipe.title" />
 
@@ -195,6 +227,7 @@ class Login extends Component {
 
                 <button type="submit">Submit</button>
                 </Form>
+
             </Paper>
 
 
