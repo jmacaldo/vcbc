@@ -21,7 +21,6 @@ onUploadFinish=(file)=>{
     const { className, ...props } = this.props;
     return (
       <div className={classnames('Register', className)} {...props}>
-        <Nav />
         <h1>VCBC New User Registration</h1>
         <Form model="userreg" onSubmit={(user) => this.handleSubmit(user)}>
           <label>Profile Image</label>

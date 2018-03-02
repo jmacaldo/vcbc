@@ -2,7 +2,7 @@ import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
-import Nav from '../components/Nav'
+import Search from '../components/Search'
 
 function mapStateToProps(state) {
   return {
@@ -21,6 +21,7 @@ function mapStateToProps(state) {
     diagOpen: state.demo.diagOpen,
     comments: state.demo.comments,
     food2fork: state.demo.food2fork
+
   }
 }
 
@@ -30,4 +31,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

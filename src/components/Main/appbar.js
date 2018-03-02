@@ -51,16 +51,10 @@ class AppBarExampleComposition extends Component {
   render() {
     return (
       <div>
-        <Toggle
-          label="Logged"
-          defaultToggled={true}
-          onToggle={this.handleChange}
-          labelPosition="right"
-          style={{margin: 20}}
-        />
+
         <AppBar
           title="Vegan Cookbook Club"
-          iconElementRight={this.state.logged ? <Logged /> : <Login />}
+          iconElementLeft={this.state.logged ? <Logged /> : <Login />}
         />
       </div>
     );

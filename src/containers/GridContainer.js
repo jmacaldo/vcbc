@@ -2,7 +2,7 @@ import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
-import Nav from '../components/Nav'
+import Grid from '../components/Grid'
 
 function mapStateToProps(state) {
   return {
@@ -20,7 +20,9 @@ function mapStateToProps(state) {
     recipeFocus: state.demo.recipeFocus,
     diagOpen: state.demo.diagOpen,
     comments: state.demo.comments,
-    food2fork: state.demo.food2fork
+    food2fork: state.demo.food2fork,
+    edamam: state.demo.edamam
+
   }
 }
 
@@ -30,4 +32,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(mapStateToProps, mapDispatchToProps)(Grid);
