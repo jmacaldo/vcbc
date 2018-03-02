@@ -2,7 +2,7 @@ import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
-import Nav from '../components/Nav'
+import Focus from '../components/Main/focus'
 
 function mapStateToProps(state) {
   return {
@@ -19,8 +19,8 @@ function mapStateToProps(state) {
     isFocusActivated: state.demo.isFocusActivated,
     recipeFocus: state.demo.recipeFocus,
     diagOpen: state.demo.diagOpen,
-    comments: state.demo.comments,
-    food2fork: state.demo.food2fork
+    comments: state.demo.comments
+
   }
 }
 
@@ -30,4 +30,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(mapStateToProps, mapDispatchToProps)(Focus);

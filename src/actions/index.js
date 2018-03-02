@@ -94,7 +94,15 @@ export const recipefocus = (detail) => {
     return { type: RECIPE_FOCUS, detail}
 }
 
+export const FOOD2FORK = "FOOD2FORK"
+export const f2fdata = (f2fres) => {
+    return { type: FOOD2FORK, f2fres}
+}
 
+export const EDAMAM = "EDAMAM"
+export const edamamdata = (edamam) => {
+    return { type: EDAMAM, edamam}
+}
 
 //menu navigation handlers
 export const ACTIVATE_MAIN = "ACTIVATE_MAIN"
@@ -212,7 +220,7 @@ export const toolsbtn =()=> {
 }
 
 //fetch comments for a recipe that has been brought to focus
-export const findbyrecipe = (detail) => {
+export const findcommentsbyrecipe = (detail) => {
   console.log(detail.id);
   return dispatch => {
       axios.post(`/api/comments/findbyrecipe`, {id: detail.id})
@@ -241,6 +249,27 @@ export const uploader =(file)=>{
   console.log('action: '+file);
   return dispatch => {
     axios.post(`/api/uploader/image`, {file: file})
+  }
+}
 
+//fetch from food2fork api
+export const apifetch =() =>{
+  return dispatch => {
+    axios.post(`http://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=6cfda056065ed767b704fafacbf33198&q=vegan`)
+    .then (res =>{
+      dispatch(f2fdata(res.data))
+    })
+  }
+}
+
+//fetch from edamam api
+export const edamam =(search) =>{
+  console.log('edamam backend fired');
+  return dispatch => {
+    axios.post(`http://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${search}&health=vegan&to=40&app_id=8c9d8719&app_key=4b681450874f79b4c4c8c72508248109`)
+    .then (res =>{
+      console.log(res.data.hits);
+      dispatch(edamamdata(res.data.hits))
+    })
   }
 }

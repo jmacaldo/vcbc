@@ -1,4 +1,4 @@
-import { EXPRESS_TEST_RESULTS, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS, COMMENTS } from '../actions';
+import { EXPRESS_TEST_RESULTS, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS, COMMENTS, FOOD2FORK, EDAMAM } from '../actions';
 
 const initialState = {
     results: '',
@@ -16,7 +16,9 @@ const initialState = {
     recipeFocus: [],
     isFocusActivated: false,
     diagOpen: false,
-    comments: []
+    comments: [],
+    food2fork: [],
+    edamam: []
 
 }
 
@@ -50,6 +52,10 @@ const demo = (state = initialState, action) => {
             return { ...state, isMainActivated: false, isRegActivated: false, isSubmitActivated: false, isToolscActivated: false, isFocusActivated: true, recipeFocus: action.detail}
         case COMMENTS:
             return {...state, comments: action.comments}
+        case FOOD2FORK:
+            return {...state, food2fork: action.f2fres}
+        case EDAMAM:
+            return {...state, edamam: action.edamam}
         default:
             return state
     }

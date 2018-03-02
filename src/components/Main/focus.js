@@ -8,6 +8,13 @@ import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Close from './ic_close_black_24px.svg';
 import { Control, Form, actions } from 'react-redux-form';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import Avatar from 'material-ui/Avatar';
+import TextField from 'material-ui/TextField';
+import ReactStars from 'react-stars';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class Focus extends Component {
 
@@ -23,7 +30,7 @@ export default class Focus extends Component {
     const { className, ...props } = this.props;
     //array for Tags
     let tagsarr = [];
-    let arr = this.props.data.tags
+    let arr = this.props.recipeFocus.tags
 
     for(let i = 0; i <= (arr.split(',').length-1); i++) {
       tagsarr.push(<div style={styles.wrapper} key={i}><Chip style={styles.chip}>
@@ -66,57 +73,102 @@ const avedom = () =>{
 }
 
 
-    let recipeid = this.props.data.id;
+    let recipeid = this.props.recipeFocus.id;
     let userid = this.props.user.id;
+
+    const ratingChanged = (newRating) => {
+  console.log(newRating)
+}
 
 
 
     return (
-      <div>
-          <CardHeader title={this.props.data.user.username} subtitle="Subtitle" avatar={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.data.user.img}  />
+      <div style={styles.main}>
+          <div style={styles.root}>
+            <GridList cols={1} cellHeight='400'>
+                <GridTile
+                  key={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img}
+                  title={this.props.recipeFocus.title}
+                  actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                  actionPosition="right"
+                  titlePosition="bottom"
+                  titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                >
+                  <img src={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img} />
+                </GridTile>
+              </GridList>
+              <List>
+                <ListItem disabled={true} leftAvatar={<Avatar src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.recipeFocus.user.img} />}>
+                  {this.props.recipeFocus.user.username}
+                </ListItem>
+              </List>
+          </div>
+
+          <CardHeader title={this.props.recipeFocus.user.username} subtitle="Subtitle" avatar={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.recipeFocus.user.img}  />
           <Card style={divStyle}>
-            <CardMedia overlay={<CardTitle title={this.props.data.title} subtitle={this.props.data.description} />}>
-              <img src={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.data.img} alt="" />
+            <CardMedia overlay={<CardTitle title={this.props.recipeFocus.title} subtitle={this.props.recipeFocus.description} />}>
+              <img src={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img} alt="" />
             </CardMedia>
             <CardText>
-              <p>Source: {this.props.data.source} </p>
-              <p>Yield: {this.props.data.yield} </p>
-              <p>Cook time: {this.props.data.cooktime} </p>
+              <p>Source: {this.props.recipeFocus.source} </p>
+              <p>Yield: {this.props.recipeFocus.yield} </p>
+              <p>Cook time: {this.props.recipeFocus.cooktime} </p>
               {avedom()}
                 <div style={styles.wrapper}>
                   {tagsarr}
                   </div>
-                  {this.props.auth &&
+                    <h2> Reviews ({totalcooktime.length})</h2>
+                    <ReactStars value={3.5} edit={false} size={24}/>
 
-                    <div>
-                      <p> create a comment </p>
+                  {this.props.isauthenticated &&
+                    <Paper style={styles.paper} zDepth={3}>
+
+
+
                         <Form model="comment" onSubmit={(comment) => this.props.actions.submitComment(comment, recipeid, userid)}>
 
                           <label htmlFor="comment.comment">Share your experience when creating this recipe. Did you make any ingredient substitutions?</label>
-                          <Control.text model="comment.comment" id="comment.comment" />
+                          <Control.text model="comment.comment" id="comment.comment" component={TextField} hintText="Write your review or comment here"  multiLine={true} rows={2} rowsMax={4}/>
 
                           <label htmlFor="comment.cooktime">How long did it take you to create this recipe?</label>
-                          <Control type="number" model="comment.cooktime" id="comment.cooktime" />
+                          <Control type="number" model="comment.cooktime" id="comment.cooktime" hintText="Enter value in minutes" component={TextField} />
+                            <ReactStars
+                              count={5}
+                              onChange={ratingChanged}
+                              size={24}
+                              color2={'#ffd700'} />
+                            <label>And give it a rating!</label>
+                      <RaisedButton type="submit" label="Submit" fullWidth={true} />
 
-
-                          <button type="submit">Submit!</button>
                         </Form>
-                    </div>
-
-
-
-
+                    </Paper>
                   }
 
                   {this.props.comments.map(function(object) {
                     return (
-                      <div key={object.id}>
-                        <span>{object.user.username} - {object.comment} - cooktime: {object.cooktime} minutes </span>
-                      </div>
+                      <Paper key={object.id} style={styles.paper} zDepth={3}>
+                        <span>
+                          <List>
+                            <ListItem
+                                  disabled={true}
+                                  leftAvatar={
+                                    <Avatar src={'https://s3.amazonaws.com/vcbc/avatars/'+object.user.img} />
+                                  }
+                                >
+                                    <b> {object.user.username}</b>
+                                </ListItem>
+
+                        </List>
+                        <p style={styles.comment}>{object.comment}</p>
+                        <i style={styles.cooktime}>{object.user.username} took {object.cooktime} minutes to make this recipe.</i>
+
+
+
+                      </span>
+                      </Paper>
                     );
                   })}
             </CardText>
-
 
 
           </Card>
@@ -146,4 +198,26 @@ const styles = {
     flexWrap: 'wrap',
     marginBottom: 5
   },
+  main: {
+    margin: 'auto'
+  },
+  root: {
+    margin: 'auto',
+    width: '100vw'
+  },
+  title: {
+    height: 300
+  },
+  paper: {
+    marginBottom: '20px',
+    padding: '20px'
+  },
+  comment: {
+    marginLeft: 71,
+    marginTop: -10
+  },
+  cooktime: {
+    marginLeft: 71
+  },
+
 };

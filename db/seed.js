@@ -36,16 +36,26 @@ const seedReviews = () => db.Promise.map([
 
  //vcbc db seed
  const seedRecipes = () => db.Promise.map([
-  {title: "Vegan Potato Curry", tags: "Indian, Mains", source:'Forks Over Knives, page 3',description:"a vegan take on an old classic", cooktime:"15 minutes", yield: 4, img:'1394028690291.jpeg', user_id: 1},
-  {title: "Fetuccine Alfredo", tags: "Italian, Pasta, Chicken", source:'Oh She Glows, page 5',description:"a dairy free pasta dish", cooktime:"2 minutes", yield: 8, img:'Vegan-Chickpea-Curry-2.jpg', user_id: 1},
-  {title: "Green Monster Smoothie", tags: "Smoothies, Breakfast", source:'Http://www.nameofsource.com',description:"quick morning breakfast", cooktime:"8 minutes", yield: 1, img:'Green-Monster-Smoothie-1.jpg', user_id: 1},
-  {title: "Superhero Salad", tags: "Salads, Mains", source:'https://my.forksmealplanner.com/#!/recipe/1046/superhero-salad',description:"With orange walnut dressing", cooktime:"20 minutes", yield: 4, img:'0628_superfood_salad_01_thumbnail_xlarge.jpg', user_id: 1},
-  {title: "Garbanzo Bolognese", tags: "Pasta, Italian", source:'Forks Over Knives',description:"With linguine pasta", cooktime:"30 minutes", yield: 4, img:'0624_garbanzo_bolognese_01_thumbnail_xlarge.jpg', user_id: 1},
-  {title: "Taco Chili", tags: "Mexican", source:'Forks Over Knives',description:"With potatos", cooktime:"30 minutes", yield: 40, img:'0625_taco_chili_01_thumbnail_xlarge.jpg', user_id: 1},
-  {title: "Quick Three-Fruit Salad", tags: "Dessert", source:'Forks Over Knives',description:"With sliced pears and berries", cooktime:"8 minutes", yield: 4, img:'fruit-salad_thumbnail_xlarge.jpg', user_id: 1},
-  {title: "Hearts of Palm \"Crab\" Cakes", tags: "Entree", source:'Forks Over Knives',description:"with steamed potatoes and rémoulade sauce", cooktime:"40 minutes", yield: 4, img:'crab_cakes_03_thumbnail_xlarge.jpg', user_id: 1},
-  {title: "Dreamy Chocolate Pudding", tags: "Dessert", source:'Forks Over Knives',description:"a quick, delicious dessert", cooktime:"10 minutes", yield: 4, img:'dreamy_chocolate_gelato_01_thumbnail_xlarge.jpg', user_id: 1},
-  {title: "Curried Cauliflower Rice Bowl", tags: "Entree", source:'Forks Over Knives',description:"with chickpeas", cooktime:"8 minutes", yield: 1, img:'0626_curried_cauliflower_rice_bowl_01_thumbnail_xlarge.jpg', user_id: 1},
+  {title: "Vegan Potato Curry", tags: "Indian, Mains", source:'Forks Over Knives, page 3',description:"a vegan take on an old classic", cooktime:"15 minutes", yield: 4, img:'Vegan-Chickpea-Curry-2.jpg', user_id: 1, featured: false},
+  {title: "Fetuccine Alfredo", tags: "Italian, Pasta, Chicken", source:'Oh She Glows, page 5',description:"a dairy free pasta dish", cooktime:"2 minutes", yield: 8, img:'1394028690291.jpeg', user_id: 1, featured: false},
+  {title: "Green Monster Smoothie", tags: "Smoothies, Breakfast", source:'Http://www.nameofsource.com',description:"quick morning breakfast", cooktime:"8 minutes", yield: 1, img:'Green-Monster-Smoothie-1.jpg', user_id: 1, featured: false},
+  {title: "Superhero Salad", tags: "Salads, Mains", source:'https://my.forksmealplanner.com/#!/recipe/1046/superhero-salad',description:"With orange walnut dressing", cooktime:"20 minutes", yield: 4, img:'0628_superfood_salad_01_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Garbanzo Bolognese", tags: "Pasta, Italian", source:'Forks Over Knives',description:"With linguine pasta", cooktime:"30 minutes", yield: 4, img:'0624_garbanzo_bolognese_01_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Taco Chili", tags: "Mexican", source:'Forks Over Knives',description:"With potatos", cooktime:"30 minutes", yield: 40, img:'0625_taco_chili_01_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Quick Three-Fruit Salad", tags: "Dessert", source:'Forks Over Knives',description:"With sliced pears and berries", cooktime:"8 minutes", yield: 4, img:'fruit-salad_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Hearts of Palm \"Crab\" Cakes", tags: "Entree", source:'Forks Over Knives',description:"with steamed potatoes and rémoulade sauce", cooktime:"40 minutes", yield: 4, img:'crab_cakes_03_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Dreamy Chocolate Pudding", tags: "Dessert", source:'Forks Over Knives',description:"a quick, delicious dessert", cooktime:"10 minutes", yield: 4, img:'dreamy_chocolate_gelato_01_thumbnail_xlarge.jpg', user_id: 1, featured: true},
+  {title: "Curried Cauliflower Rice Bowl", tags: "Entree", source:'Forks Over Knives',description:"with chickpeas", cooktime:"8 minutes", yield: 1, img:'0626_curried_cauliflower_rice_bowl_01_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Vegan Potato Curry", tags: "Indian, Mains", source:'Forks Over Knives, page 3',description:"a vegan take on an old classic", cooktime:"15 minutes", yield: 4, img:'Vegan-Chickpea-Curry-2.jpg', user_id: 1, featured: false},
+  {title: "Fetuccine Alfredo", tags: "Italian, Pasta, Chicken", source:'Oh She Glows, page 5',description:"a dairy free pasta dish", cooktime:"2 minutes", yield: 8, img:'1394028690291.jpeg', user_id: 1, featured: false},
+  {title: "Green Monster Smoothie", tags: "Smoothies, Breakfast", source:'Http://www.nameofsource.com',description:"quick morning breakfast", cooktime:"8 minutes", yield: 1, img:'Green-Monster-Smoothie-1.jpg', user_id: 1, featured: false},
+  {title: "Superhero Salad", tags: "Salads, Mains", source:'https://my.forksmealplanner.com/#!/recipe/1046/superhero-salad',description:"With orange walnut dressing", cooktime:"20 minutes", yield: 4, img:'0628_superfood_salad_01_thumbnail_xlarge.jpg', user_id: 1, featured: true},
+  {title: "Garbanzo Bolognese", tags: "Pasta, Italian", source:'Forks Over Knives',description:"With linguine pasta", cooktime:"30 minutes", yield: 4, img:'0624_garbanzo_bolognese_01_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Taco Chili", tags: "Mexican", source:'Forks Over Knives',description:"With potatos", cooktime:"30 minutes", yield: 40, img:'0625_taco_chili_01_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Quick Three-Fruit Salad", tags: "Dessert", source:'Forks Over Knives',description:"With sliced pears and berries", cooktime:"8 minutes", yield: 4, img:'fruit-salad_thumbnail_xlarge.jpg', user_id: 1, featured: true},
+  {title: "Hearts of Palm \"Crab\" Cakes", tags: "Entree", source:'Forks Over Knives',description:"with steamed potatoes and rémoulade sauce", cooktime:"40 minutes", yield: 4, img:'crab_cakes_03_thumbnail_xlarge.jpg', user_id: 1, featured: false},
+  {title: "Dreamy Chocolate Pudding", tags: "Dessert", source:'Forks Over Knives',description:"a quick, delicious dessert", cooktime:"10 minutes", yield: 4, img:'dreamy_chocolate_gelato_01_thumbnail_xlarge.jpg', user_id: 1, featured: true},
+  {title: "Curried Cauliflower Rice Bowl", tags: "Entree", source:'Forks Over Knives',description:"with chickpeas", cooktime:"8 minutes", yield: 1, img:'0626_curried_cauliflower_rice_bowl_01_thumbnail_xlarge.jpg', user_id: 1, featured: false},
 
 ], recipe => db.model('recipes').create(recipe));
 

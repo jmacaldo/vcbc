@@ -22,11 +22,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Control, Form, actions } from 'react-redux-form';
 import { Link } from 'react-router-dom';
-import cow from './cow.jpg';
-import leftimg from './cow.png';
-import {GridList, GridTile} from 'material-ui/GridList';
-import Avatar from 'material-ui/Avatar';
-import RaisedButton from 'material-ui/RaisedButton';
+import {LoginImg} from '../Nav/login000.jpg'
+import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
 
 
 export default class Nav extends Component {
@@ -95,7 +92,7 @@ this.setState({
 
     return (
       <div>
-      <Paper rounded={true} style={styles.paper}>
+      <Paper zDepth={5} rounded={true} style={styles.paper}>
       <Flexbox style={styles.flex}>
           <img onClick={this.handleClick} style={styles.logo} src={logo} />
             <Popover
@@ -126,7 +123,7 @@ this.setState({
           </div>
 
           {this.props.isauthenticated &&
-          <span id={styles.avatartop}><Avatar size={60} src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.user.img} /><div style={styles.username}>Hi, {this.props.user.firstname}! </div></span>
+            <CardHeader title={this.props.user.firstname} subtitle="" avatar={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.user.img}  />
           }
 
       </Flexbox>
@@ -140,33 +137,50 @@ this.setState({
          modal={false}
          open={this.state.diag}
          onRequestClose={this.handleClose}
-         contentStyle={styles.diag}
-
+        
        >
-        <Flexbox style={styles.login}>
-                <img src={leftimg} style={styles.left}   />
-               <div style={styles.right}>
-                  <label>Existing users sign in here</label>
-                  <Form model="userlogin" onSubmit={(user) => this.handleSubmit(user)}>
-                    <label htmlFor="userlogin.username"></label>
-                    <Control.text component={TextField} hintText="Username" multiLine={false} model="userlogin.username" id="userlogin.username"  />
-                    <label htmlFor="userlogin.password"></label>
-                    <Control.text component={TextField} hintText="Password" multiLine={false} type="password" model="userlogin.password" id="userlogin.password"  />
-                    <label></label>
-                  <RaisedButton type="submit" label="Submit" fullWidth={false} />
-                  </Form>
+        <Flexbox>
+          <div>photo goes here</div>
+          <div>
+            <label>Existing users sign in here</label>
+        <Form model="userlogin" onSubmit={(user) => this.handleSubmit(user)}>
 
-                  {!this.props.isauthenticated &&
-                    <h5><i>Don't have an account? Click <Link to={`/register`}>HERE</Link> to register for one!</i></h5>
-                  }
+          <label htmlFor="userlogin.username">Username</label>
+          <Control.text component={TextField} hintText="Username" multiLine={false} model="userlogin.username" id="userlogin.username"  />
 
-                  {this.props.isregistered &&
-                    <p>You've succefully created an account! Click <Link to={`/`}>HERE</Link> to sign in!</p>
-                 }
-               </div>
+          <label htmlFor="userlogin.password">Password</label>
+          <Control.text component={TextField} hintText="Username" multiLine={false} type="password" model="userlogin.password" id="userlogin.password"  />
+
+          <button type="submit">Submit!</button>
+        </Form>
+
+        {!this.props.isauthenticated &&
+          <p>Dont have an account? Click <Link to={`/register`}>HERE</Link> to register for one!</p>
+        }
 
 
-      </Flexbox>
+        </div>
+        </Flexbox>
+
+        {this.props.isregistered &&
+          <p>You've succefully created an account! Click <Link to={`/`}>HERE</Link> to sign in!</p>
+       }
+       <form>
+         <FormGroup
+           controlId="formBasicText"
+           validationState={this.getValidationState()}
+         >
+           <ControlLabel>Working example with validation</ControlLabel>
+           <FormControl
+             type="text"
+             value={this.state.value}
+             placeholder="Enter text"
+             onChange={this.handleChange}
+           />
+           <FormControl.Feedback />
+           <HelpBlock>Validation is based on string length.</HelpBlock>
+         </FormGroup>
+       </form>
       </Dialog>
 
       </div>
@@ -186,47 +200,25 @@ const styles ={
     height: 100,
     justifyContent: 'space-around',
     alignItems: 'flex-end',
+    marginBottom: 10,
     paddingTop: 10,
-    paddingBottom: 20,
+    paddingBottom: 10,
 
 
-  },
-  loginRight:{
-    paddingLeft: 40
-  },
-  left: {
-    padding: 0,
-    marginLeft: -50,
-    marginBottom: -25
   },
   search: {
     width:'80vw',
     marginBottom:18
   },
-  login:{
-    padding:  0,
-    margin: 0,
-    flexWrap: 'wrap'
-  },
-  username: {
-    marginBottom: 5,
-    marginLeft: 10,
-    marginRight: 30
-  },
   loginImg: {
-    width: '100%',
-    padding: 50
+    width: 250
   },
-  right: {
-    marginTop: 70,
-    marginLeft: 25
+  paper: {
+    position: 'fixed',
+    marginTop: '6vh',
+    opacity: .95
   },
   diag: {
-    width: '60%',
-    height: '50%',
-    maxWidth: 'none',
-    maxHeight: 'none',
-    padding: 0
 
 
   }
@@ -238,3 +230,8 @@ const paper = {
   marginLeft: 40,
   marginTop: 20
 }
+
+
+const customContentStyle = {
+  maxWidth: '70vw',
+};

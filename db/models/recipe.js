@@ -31,8 +31,11 @@ const Recipe = db.define('recipes', {
   cooktime: {
     type: Sequelize.STRING,
     allowNull: false
-  }
-
+  },
+  featured: {
+  	type: Sequelize.BOOLEAN,
+  	allowNull: true
+}
 });
 
 module.exports = Recipe;
