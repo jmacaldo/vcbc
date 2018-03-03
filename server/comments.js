@@ -48,6 +48,9 @@ router.post('/findbyrecipe', function(req, res, next) {
   Comments.sync().then(function(){
     Comments.findAll({
       include: [Users],
+      order: [
+        ['id', 'DESC']
+      ],
       where: {
         recipe_id: req.body.id
       }
