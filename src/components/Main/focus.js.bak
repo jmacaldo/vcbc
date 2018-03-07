@@ -16,18 +16,12 @@ import TextField from 'material-ui/TextField';
 import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
-import Nav from '../../containers/NavContainer'
 
-export default class Recipe extends Component {
+export default class Focus extends Component {
 
   state = {
     rating: '',
   };
-
-  componentWillMount(){
-    this.props.actions.findbyid(this.props.match.params.id)
-    this.props.actions.findcommentsbyrecipe(this.props.match.params.id)
-  }
 
 
   handleSubmitComment(comment){
@@ -36,31 +30,26 @@ export default class Recipe extends Component {
   }
 
 
+
+
   render() {
     const { className, ...props } = this.props;
-
+    //array for Tags
     let tagsarr = [];
     let arr = this.props.recipeFocus.tags
-
-    console.log(this.props);
-
-    if (arr){
 
     for(let i = 0; i <= (arr.split(',').length-1); i++) {
       tagsarr.push(<div style={styles.wrapper} key={i}><Chip style={styles.chip}>
              {arr.split(',')[i]}
         </Chip></div>);
-      }
     }
-
-    console.log(tagsarr);
 
     //set rating to component state
     const ratingChanged = (newRating) => {
       this.setState({rating: newRating})
-      console.log(newRating)
-      console.log(this.state.rating);
-    }
+  console.log(newRating)
+  console.log(this.state.rating);
+}
 
     //calculate average cooktime for a recipe
     let totalcooktime = []
@@ -121,12 +110,8 @@ console.log(avgrating);
 
 
 
-
-
-
     return (
       <div style={styles.main}>
-        <Nav />
           <div style={styles.root}>
             <GridList cols={1} cellHeight='400'>
                 <GridTile

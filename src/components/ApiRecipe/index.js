@@ -32,7 +32,7 @@ export default class ApiRecipe extends Component {
 
       <div>
         <Nav />
-          this is the recipe page
+          this is the edamam recipe page
 
 
       </div>

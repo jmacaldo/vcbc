@@ -48,10 +48,10 @@ router.post('/ingredient', function(req, res, next) {
 
 //find ingredients by recipe
 router.post('/findbyid', function(req, res, next) {
-  Ingredient.sync().then(function(){
-    Ingredient.findAll({
+  Recipe.sync().then(function(){
+    Recipe.findAll({
       where: {
-        recipe_id: req.body.id
+        id: req.body.id
       }
     })
     .then(

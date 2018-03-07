@@ -19,12 +19,7 @@ function mapStateToProps(state) {
     isFocusActivated: state.demo.isFocusActivated,
     recipeFocus: state.demo.recipeFocus,
     diagOpen: state.demo.diagOpen,
-    comments: state.demo.comments,
-    food2fork: state.demo.food2fork,
-    edamamfocus: state.demo.edamamfocus,
-    isEdamFocus: state.demo.isEdamFocus,
-    profile: state.demo.profile,
-    recipeinprofile:  state.demo.recipeinprofile
+    comments: state.demo.comments
 
   }
 }

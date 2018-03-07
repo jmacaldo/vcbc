@@ -21,7 +21,7 @@ const Routes = () => {
         <Route exact path="/submit" component={Submit} />
         <Route exact path="/profile/:username" component={Profile} />
         <Route exact path="/recipe/:id" component={Recipe} />
-        <Route exact path="/api/:id" component={ApiRecipe} />
+        <Route exact path="/api/:uri/*/*/*/" component={ApiRecipe} />
       </div>
     </Router>
   )

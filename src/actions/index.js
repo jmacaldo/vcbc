@@ -204,6 +204,19 @@ export const submitingredient = (ingredient, recipe) => {
     }
 }
 
+//find a user recipe by its id
+export const findbyid = (id) => {
+    return dispatch => {
+      axios.post(`/api/recipe/findbyid`, {id: id})
+      .then(res => {
+      console.log(res);
+      dispatch(recipefocus(res.data[0]))
+      })
+    }
+}
+
+
+
 //findall recipes for display to the main page
 export const allrecipes = () => {
     return dispatch => {
@@ -217,6 +230,8 @@ export const allrecipes = () => {
 //find the one recipe labed as 'recipe of the week'
 export const detail = (detail) => {
   return dispatch => {
+    console.log('action')
+    console.log(detail);
       dispatch(recipefocus(detail))
   }
 }
@@ -246,10 +261,10 @@ export const toolsbtn =()=> {
 }
 
 //fetch comments for a recipe that has been brought to focus
-export const findcommentsbyrecipe = (detail) => {
-  console.log(detail.id);
+export const findcommentsbyrecipe = (id) => {
+  console.log(id);
   return dispatch => {
-      axios.post(`/api/comments/findbyrecipe`, {id: detail.id})
+      axios.post(`/api/comments/findbyrecipe`, {id: id})
       .then( res => {
          dispatch(commentsfetch(res.data))
       })
