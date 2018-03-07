@@ -20,7 +20,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactS3Uploader from 'react-s3-uploader';
-import Edamam from '../../containers/EdamamFocusContainer';
+import Edafocus from '../../containers/EdamFocusContainer';
 import Focus from '../../containers/FocusContainer';
 import GridListExampleComplex from '../../containers/GridContainer'
 import TextField from 'material-ui/TextField';
@@ -39,9 +39,11 @@ class Login extends Component {
      this.props.actions.findcommentsbyrecipe(object);
   }
 
+
+
   handleEdamam(object) {
-    console.log(object);
     this.props.actions.detail(object);
+    this.props.actions.findedamamcomments(object);
   }
 
 
@@ -265,6 +267,10 @@ class Login extends Component {
 
         {this.props.isFocusActivated &&
             <Focus />
+        }
+
+        {this.props.isEdamFocus &&
+          <Edafocus />
         }
 
 

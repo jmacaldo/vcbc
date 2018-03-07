@@ -2,7 +2,7 @@ import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
-import Main from '../components/Main'
+import Edafocus from '../components/Main/edafocus'
 
 function mapStateToProps(state) {
   return {
@@ -21,7 +21,7 @@ function mapStateToProps(state) {
     diagOpen: state.demo.diagOpen,
     comments: state.demo.comments,
     food2fork: state.demo.food2fork,
-    edamam: state.demo.edamam,
+    edamamfocus: state.demo.edamamfocus,
     isEdamFocus: state.demo.isEdamFocus
 
   }
@@ -33,4 +33,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Edafocus);

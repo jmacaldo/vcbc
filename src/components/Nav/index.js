@@ -97,22 +97,24 @@ this.setState({
       <div>
       <Paper rounded={true} style={styles.paper}>
       <Flexbox style={styles.flex}>
-          <img onClick={this.handleClick} style={styles.logo} src={logo} />
+        <Link to={'/'}><img style={styles.logo} src={logo} /></Link>
             <Popover
             open={this.state.open}
             anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'middle', vertical: 'top'}}
+            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'right', vertical: 'top'}}
             onRequestClose={this.handleRequestClose}
           >
             <Menu>
               {!this.props.isauthenticated &&
                 <div>
+                  <MenuItem onClick={this.props.actions.loginbtn} primaryText="Main" leftIcon={<ContentCreate />} />
                   <MenuItem onClick={this.handleOpen} primaryText="Login" leftIcon={<ActionGrade />} />
                 </div>
               }
               {this.props.isauthenticated &&
                 <div>
+                  <Link to={`/profile/${this.props.user.username}`}><MenuItem onClick={this.props.actions.submitbtn} primaryText="My profile" leftIcon={<ContentCreate />} /></Link>
                   <MenuItem onClick={this.props.actions.submitbtn} primaryText="Submit a recipe" leftIcon={<ContentCreate />} />
                   <MenuItem primaryText="Logout" leftIcon={<ContentDrafts />} />
                 </div>
@@ -125,8 +127,13 @@ this.setState({
             <Search />
           </div>
 
+          {!this.props.isauthenticated &&
+            <Flexbox onClick={this.handleOpen} id={styles.avatartop}><Avatar size={60} src={'https://s3.amazonaws.com/vcbc/avatars/defaultavatar.png'} /><div style={styles.username}>Login! </div></Flexbox>
+
+          }
+
           {this.props.isauthenticated &&
-          <span id={styles.avatartop}><Avatar size={60} src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.user.img} /><div style={styles.username}>Hi, {this.props.user.firstname}! </div></span>
+          <Flexbox onClick={this.handleClick} id={styles.avatartop}><Avatar size={60} src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.user.img} /><div style={styles.username}>{this.props.user.firstname}! </div></Flexbox>
           }
 
       </Flexbox>
@@ -146,6 +153,8 @@ this.setState({
         <Flexbox style={styles.login}>
                 <img src={leftimg} style={styles.left}   />
                <div style={styles.right}>
+                   {!this.props.isauthenticated &&
+                     <div>
                   <label>Existing users sign in here</label>
                   <Form model="userlogin" onSubmit={(user) => this.handleSubmit(user)}>
                     <label htmlFor="userlogin.username"></label>
@@ -156,12 +165,15 @@ this.setState({
                   <RaisedButton type="submit" label="Submit" fullWidth={false} />
                   </Form>
 
-                  {!this.props.isauthenticated &&
+
                     <h5><i>Don't have an account? Click <Link to={`/register`}>HERE</Link> to register for one!</i></h5>
+                    </div>
                   }
 
                   {this.props.isregistered &&
-                    <p>You've succefully created an account! Click <Link to={`/`}>HERE</Link> to sign in!</p>
+                    <div>
+                    <h1 style={styles.moo}>Moo!</h1><p>Horray! You've signed in! Click outside this box to continue</p>
+                    </div>
                  }
                </div>
 
@@ -194,6 +206,13 @@ const styles ={
   loginRight:{
     paddingLeft: 40
   },
+  moo: {
+    fontSize: '50px'
+  },
+  avatartop: {
+    flexWrap: 'wrap',
+    alignItems: 'center'
+  },
   left: {
     padding: 0,
     marginLeft: -50,
@@ -211,7 +230,8 @@ const styles ={
   username: {
     marginBottom: 5,
     marginLeft: 10,
-    marginRight: 30
+    marginRight: 30,
+    marginTop: 20
   },
   loginImg: {
     width: '100%',
@@ -222,7 +242,7 @@ const styles ={
     marginLeft: 25
   },
   diag: {
-    width: '60%',
+    width: '930px',
     height: '50%',
     maxWidth: 'none',
     maxHeight: 'none',

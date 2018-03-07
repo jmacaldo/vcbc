@@ -7,7 +7,7 @@ const Comments = require('../db/models/comments');
 const router = require('express').Router()
 
 
-//add a recipe to the DB
+//add a local recipe comment to the DB
 router.post('/submit', function(req, res, next) {
   console.log('comment backend!', req.body.comment, req.body.recipeid, req.body.userid);
   Comments.sync().then(function(){
@@ -15,7 +15,27 @@ router.post('/submit', function(req, res, next) {
       comment: req.body.comment.comment,
       cooktime: req.body.comment.cooktime,
       user_id: req.body.userid,
-      recipe_id: req.body.recipeid
+      recipe_id: req.body.recipeid,
+      rating: req.body.rating
+
+    }).then(result => {
+        res.status(200).send(result);
+    })
+    .catch(next);
+  });
+
+});
+
+//add an edamam recipe comment to the DB
+router.post('/edamamcomment', function(req, res, next) {
+  console.log('edamam comment backend!', req.body.comment, req.body.recipeid, req.body.userid);
+  Comments.sync().then(function(){
+    Comments.create({
+      comment: req.body.comment.comment,
+      cooktime: req.body.comment.cooktime,
+      user_id: req.body.userid,
+      edamam_uri: req.body.recipeid,
+      rating: req.body.rating
 
     }).then(result => {
         res.status(200).send(result);
@@ -53,6 +73,27 @@ router.post('/findbyrecipe', function(req, res, next) {
       ],
       where: {
         recipe_id: req.body.id
+      }
+    })
+    .then(
+      function(result){
+        console.log(result);
+        res.status(200).send(result);
+      }
+    ).catch(next);
+  });
+});
+
+//find edamam comments by recipe
+router.post('/findbyuri', function(req, res, next) {
+  Comments.sync().then(function(){
+    Comments.findAll({
+      include: [Users],
+      order: [
+        ['created_at', 'DESC']
+      ],
+      where: {
+        edamam_uri: req.body.edamam_uri
       }
     })
     .then(

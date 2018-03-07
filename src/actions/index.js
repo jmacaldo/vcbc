@@ -94,6 +94,11 @@ export const recipefocus = (detail) => {
     return { type: RECIPE_FOCUS, detail}
 }
 
+export const EDAMAM_FOCUS = "EDAMAM_FOCUS"
+export const edamfocustoprops = (detail) => {
+    return { type: EDAMAM_FOCUS, detail}
+}
+
 export const FOOD2FORK = "FOOD2FORK"
 export const f2fdata = (f2fres) => {
     return { type: FOOD2FORK, f2fres}
@@ -103,6 +108,20 @@ export const EDAMAM = "EDAMAM"
 export const edamamdata = (edamam) => {
     return { type: EDAMAM, edamam}
 }
+
+//load a user profile to state
+export const USER_PROFILE = "USER_PROFILE"
+export const loaduserprofile = (user) => {
+    return { type: USER_PROFILE, user}
+}
+
+//load recipes in profile
+export const RECIPE_IN_PROFILE = "RECIPE_IN_PROFILE"
+export const loadrecipeinprofile = (recipes) => {
+    return { type: RECIPE_IN_PROFILE, recipes}
+}
+
+
 
 //menu navigation handlers
 export const ACTIVATE_MAIN = "ACTIVATE_MAIN"
@@ -202,6 +221,13 @@ export const detail = (detail) => {
   }
 }
 
+//edamam recipe detail action
+export const edamamfocus = (detail) => {
+  return dispatch => {
+      dispatch(edamfocustoprops(detail))
+  }
+}
+
 //these relate to nav buttons
 export const loginbtn =()=> {
   return { type: ACTIVATE_MAIN}
@@ -228,15 +254,41 @@ export const findcommentsbyrecipe = (detail) => {
          dispatch(commentsfetch(res.data))
       })
   }
+}
 
+//fetch comments for an edamam recipe that has been brought to focus
+export const findedamamcomments = (uri) => {
+  console.log('eda comments', uri);
+  return dispatch => {
+      axios.post(`/api/comments/findbyuri`, {edamam_uri: uri})
+      .then( res => {
+        console.log(res.data);
+         dispatch(commentsfetch(res.data))
+      })
+  }
 }
 
 //submit a recipe comment to the db and then update state with new comment
-export const submitComment = (comment, recipeid, userid) => {
+export const submitComment = (comment, recipeid, userid, rating) => {
   return dispatch => {
-      axios.post(`/api/comments/submit`, {comment: comment, recipeid: recipeid, userid: userid})
+    console.log('regular comment fired');
+      axios.post(`/api/comments/submit`, {comment: comment, recipeid: recipeid, userid: userid, rating: rating})
       .then( res => {
         axios.post(`/api/comments/findbyrecipe`, {id: recipeid})
+        .then( res => {
+           dispatch(commentsfetch(res.data))
+        })
+      })
+  }
+}
+
+//submit a recipe comment for edamam recipes
+export const submitCommentEdamam = (comment, uri, userid, rating) => {
+  return dispatch => {
+    console.log('eda comment fired', rating);
+      axios.post(`/api/comments/edamamcomment`, {comment: comment, recipeid: uri, userid: userid, rating: rating})
+      .then( res => {
+        axios.post(`/api/comments/findbyuri`, {edamam_uri: uri})
         .then( res => {
            dispatch(commentsfetch(res.data))
         })
@@ -270,6 +322,22 @@ export const edamam =(search) =>{
     .then (res =>{
       console.log(res.data.hits);
       dispatch(edamamdata(res.data.hits))
+    })
+  }
+}
+
+//load user profile based on URL route
+export const loadUser =(username) =>{
+  return dispatch => {
+    axios.post(`/api/user/findByUsername`, {username: username})
+    .then(res => {
+      dispatch(loaduserprofile(res.data))
+      axios.post(`/api/recipe/findbyuserid`, {id: res.data.id})
+      .then(res => {
+        console.log('recipe action:', res.data);
+        dispatch(loadrecipeinprofile(res.data))
+      })
+
     })
   }
 }

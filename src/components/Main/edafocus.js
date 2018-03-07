@@ -17,8 +17,7 @@ import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
 
-export default class Focus extends Component {
-
+export default class Edafocus extends Component {
   state = {
     rating: '',
   };
@@ -26,7 +25,7 @@ export default class Focus extends Component {
 
   handleSubmitComment(comment){
     console.log(comment);
-    this.props.actions.submitComment(comment)
+    this.props.actions.submitCommentEdamam(comment)
   }
 
 
@@ -34,22 +33,16 @@ export default class Focus extends Component {
 
   render() {
     const { className, ...props } = this.props;
+    console.log(this.props.edamamfocus.healthLabels);
     //array for Tags
     let tagsarr = [];
-    let arr = this.props.recipeFocus.tags
+   let arr = this.props.edamamfocus.healthLabels
 
-    for(let i = 0; i <= (arr.split(',').length-1); i++) {
+    for(let i = 0; i <= (arr.length-1); i++) {
       tagsarr.push(<div style={styles.wrapper} key={i}><Chip style={styles.chip}>
-             {arr.split(',')[i]}
+             {arr[i]}
         </Chip></div>);
     }
-
-    //set rating to component state
-    const ratingChanged = (newRating) => {
-      this.setState({rating: newRating})
-  console.log(newRating)
-  console.log(this.state.rating);
-}
 
     //calculate average cooktime for a recipe
     let totalcooktime = []
@@ -65,9 +58,10 @@ export default class Focus extends Component {
 
     let total = 0;
     for(let j = 0; j < totalcooktime.length; j++) {
-    total += totalcooktime[j];
-}
-let avg = Math.floor(total / totalcooktime.length);
+      total += totalcooktime[j];
+    }
+
+    let avg = Math.floor(total / totalcooktime.length);
 
 const avedom = () =>{
   if (totalcooktime==0) {
@@ -77,6 +71,7 @@ const avedom = () =>{
       <p>One person took an average of {avg} minutes to make this recipe</p>
     )
   } else  {
+
     return(
       <p>{totalcooktime.length} people took an average of {avg} minutes to make this recipe</p>
     )
@@ -103,11 +98,17 @@ let avgrating = totalratingsum / totalratingarray.length;
 console.log(avgrating);
 
 
-    let recipeid = this.props.recipeFocus.id;
+
+
+
+    let recipeid = this.props.edamamfocus.uri;
     let userid = this.props.user.id;
 
-
-
+    const ratingChanged = (newRating) => {
+      this.setState({rating: newRating})
+  console.log(newRating)
+  console.log(this.state.rating);
+}
 
 
     return (
@@ -115,26 +116,26 @@ console.log(avgrating);
           <div style={styles.root}>
             <GridList cols={1} cellHeight='400'>
                 <GridTile
-                  key={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img}
-                  title={this.props.recipeFocus.title}
+                  key={this.props.edamamfocus.uri}
+                  title={this.props.edamamfocus.label}
                   actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                   actionPosition="right"
                   titlePosition="top"
                   titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                  titleStyle={styles.gridTitle}
+                  titleStyle={this.props.edamamfocus.label}
                 >
-                  <img src={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img} />
+                  <img src={this.props.edamamfocus.image} />
                 </GridTile>
               </GridList>
               <Flexbox style={styles.infoBar}>
                 <div style={styles.info}>
-                  {this.props.recipeFocus.source} <div style={styles.infoLabel}><p><i>Source</i></p></div>
+                  {this.props.edamamfocus.source} <div style={styles.infoLabel}><p><i>Source</i></p></div>
                 </div>
                 <div style={styles.info}>
-                  {this.props.recipeFocus.yield} <div style={styles.infoLabel}><p><i>Yield</i></p></div>
+                  {this.props.edamamfocus.yield} <div style={styles.infoLabel}><p><i>Yield</i></p></div>
                 </div>
                 <div style={styles.info}>
-                  {this.props.recipeFocus.cooktime} <div style={styles.infoLabel}><p><i>Minutes</i></p></div>
+                  {Math.floor(this.props.edamamfocus.calories)} <div style={styles.infoLabel}><p><i>Calories</i></p></div>
                 </div>
               </Flexbox>
 
@@ -144,10 +145,17 @@ console.log(avgrating);
             <div style={styles.wrapper}>
               {tagsarr}
               </div>
+
+              {totalcooktime.length<=0 &&
+
+
+              <p>Be the first to rate and comment this recipe! </p>
+
+              }
           {this.props.isauthenticated &&
             <Paper style={styles.commentBox} zDepth={3}>
 
-                <Form model="comment" onSubmit={(comment) => this.props.actions.submitComment(comment, recipeid, userid, this.state.rating)}>
+                <Form model="comment" onSubmit={(comment) => this.props.actions.submitCommentEdamam(comment, recipeid, userid, this.state.rating)}>
 
                   <label htmlFor="comment.comment">Share your experience when creating this recipe. Did you make any ingredient substitutions?</label>
                   <Control.text model="comment.comment" id="comment.comment" component={TextField} hintText="Write your review or comment here"  fullWidth={true} multiLine={true} rows={2} rowsMax={4}/>
@@ -158,47 +166,45 @@ console.log(avgrating);
                       onChange={ratingChanged}
                       size={24}
                       color2={'#DF2D4C'}
-                      value={this.state.rating}
-                      />
+                      value={this.state.rating} />
                     <label>And give it a rating!</label>
               <RaisedButton type="submit" label="Submit" fullWidth={true} />
 
                 </Form>
             </Paper>
           }
-        {totalcooktime.length<=0 &&
 
-
-        <p>Login to be the first to rate and comment this recipe! </p>
-
-        }
 
         {totalcooktime.length>=1 &&
 
-<div>
-<Flexbox style={styles.commentHeader}> Reviews ({totalcooktime.length})<div style={styles.stars}><ReactStars value={avgrating}  edit={false} size={20} color2={'#DF2D4C'}/></div></Flexbox>
-<Paper style={styles.commentBox} zDepth={3}>
-        {this.props.comments.map(function(object) {
-            return (
-                <span key={object.id}>
-                  <List>
-                    <ListItem
-                          disabled={true}
-                          leftAvatar={
-                            <Avatar src={'https://s3.amazonaws.com/vcbc/avatars/'+object.user.img} />
-                          }
-                        >
-                            <b> {object.user.username}</b>
-                        </ListItem>
+          <div>
+            <Flexbox style={styles.commentHeader}> Reviews ({totalcooktime.length})<div style={styles.stars}><ReactStars value={avgrating} edit={false} size={20} color2={'#DF2D4C'}/></div></Flexbox>
+            <Paper style={styles.commentBox} zDepth={3}>
+                    {this.props.comments.map(function(object) {
+                        return (
+                            <span key={object.id}>
+                              <List>
+                                <ListItem
+                                      disabled={true}
+                                      leftAvatar={
+                                        <Avatar src={'https://s3.amazonaws.com/vcbc/avatars/'+object.user.img} />
+                                      }
+                                    >
+                                        <b> {object.user.username}</b>
+                                    </ListItem>
 
-                </List>
-                <p style={styles.comment}>{object.comment}<ReactStars value={object.rating} edit={false} size={15} color2={'#DF2D4C'}/></p>
-              </span>
-            );
-          })}
-            </Paper>
-            </div>
-            }
+                            </List>
+                            <p style={styles.comment}>{object.comment}<ReactStars value={object.rating} edit={false} size={15} color2={'#DF2D4C'}/></p>
+                          </span>
+                        );
+                      })}
+                        </Paper>
+          </div>
+
+        }
+
+
+
           </div>
         </div>
       </div>

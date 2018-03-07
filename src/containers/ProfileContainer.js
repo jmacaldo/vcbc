@@ -2,7 +2,7 @@ import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
-import Main from '../components/Main'
+import Profile from '../components/Profile'
 
 function mapStateToProps(state) {
   return {
@@ -21,8 +21,10 @@ function mapStateToProps(state) {
     diagOpen: state.demo.diagOpen,
     comments: state.demo.comments,
     food2fork: state.demo.food2fork,
-    edamam: state.demo.edamam,
-    isEdamFocus: state.demo.isEdamFocus
+    edamamfocus: state.demo.edamamfocus,
+    isEdamFocus: state.demo.isEdamFocus,
+    profile: state.demo.profile,
+    recipeinprofile:  state.demo.recipeinprofile
 
   }
 }
@@ -33,4 +35,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
