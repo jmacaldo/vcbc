@@ -8,19 +8,10 @@ const initialState = {
     recipe: [],
     ingredients: [],
     allrecipes:[],
-    isMainActivated: true,
-    isRegActivated: false,
-    isSubmitActivated: false,
-    isToolscActivated: false,
-    isLoading: true,
     recipeFocus: [],
-    isFocusActivated: false,
-    isEdamFocus: false,
-    diagOpen: false,
     comments: [],
-    food2fork: [],
-    edamam: [],
-    edamamfocus: [],
+    edamam: [], /* this is the state for api search result*/
+    edamamfocus: [], /*state for api recipe focus*/
     profile: [],
     recipeinprofile: []
 
@@ -28,14 +19,6 @@ const initialState = {
 
 const demo = (state = initialState, action) => {
     switch (action.type) {
-        case EXPRESS_TEST_RESULTS:
-            return { ...state, results: "Test Succeeded!  " + action.data }
-        case DB_TEST_RESULTS:
-            return { ...state, results: "Test Succeeded!  " + action.data }
-        case EXPRESS_TEST_ERROR:
-            return { ...state, results: "Test Failed!  " + action.data }
-        case DB_TEST_ERROR:
-            return { ...state, results: "Test Failed!  " + action.data }
         case NO_AUTH:
             return { ...state, isAuthenticated: false }
         case AUTHED:
@@ -43,25 +26,15 @@ const demo = (state = initialState, action) => {
         case IS_REGISTERED:
             return { ...state, user: action.user, isRegistered: true, isAuthenticated: false, recipeSubmitted: false }
         case RECIPE_FIND_ALL:
-            return { ...state, allrecipes: action.allrecipes, isLoading: false, recipeFocus: action.detail}
-        case ACTIVATE_MAIN:
-            return { ...state, isMainActivated: true, isRegActivated: false, isSubmitActivated: false, isToolscActivated: false, isFocusActivated: false, isEdamFocus: false}
-        case ACTIVATE_REG:
-            return { ...state, isMainActivated: false, isRegActivated: true, isSubmitActivated: false, isToolscActivated: false, isFocusActivated: false, isEdamFocus: false}
-        case ACTIVATE_SUBMIT:
-            return { ...state, isMainActivated: false, isRegActivated: false, isSubmitActivated: true, isToolscActivated: false, isFocusActivated: false, isEdamFocus: false}
-        case ACTIVATE_TOOLS:
-            return { ...state, isMainActivated: false, isRegActivated: false, isSubmitActivated: false, isToolscActivated: true, isFocusActivated: false, isEdamFocus: false}
+            return { ...state, allrecipes: action.allrecipes}
         case RECIPE_FOCUS:
-            return { ...state, isMainActivated: false, isRegActivated: false, isSubmitActivated: false, isToolscActivated: false, isFocusActivated: true, recipeFocus: action.detail}
+            return { ...state,  recipeFocus: action.detail}
         case COMMENTS:
             return {...state, comments: action.comments}
-        case FOOD2FORK:
-            return {...state, food2fork: action.f2fres}
-        case EDAMAM:
+        case EDAMAM: /*case for api search result*/
             return {...state, edamam: action.edamam}
-        case EDAMAM_FOCUS:
-            return {...state,  isMainActivated: false, isRegActivated: false, isSubmitActivated: false, isToolscActivated: false, isFocusActivated: false, isEdamFocus: true, edamamfocus: action.detail}
+        case EDAMAM_FOCUS: /*case for api recipe in focus*/
+            return {...state,  edamamfocus: action.detail}
         case USER_PROFILE:
             return {...state,  profile: action.user}
         case RECIPE_IN_PROFILE:

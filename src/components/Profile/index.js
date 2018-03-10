@@ -14,12 +14,18 @@ import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
 import Nav from '../../containers/NavContainer'
-import Cows from './cows.jpg'
+import Cows from './farm.jpeg'
+
+
 
 export default class Profile extends Component {
 
   componentWillMount(){
     this.props.actions.loadUser(this.props.match.params.username);
+    document.body.style.backgroundImage = `url('${Cows} ')`;
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundAttachment = 'fixed';
 
   }
 
@@ -32,62 +38,39 @@ export default class Profile extends Component {
 
 
       <div>
-        <Nav />
-          <GridList cols={1} cellHeight='400'>
-              <GridTile
-                title={this.props.edamamfocus.label}
-                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-                actionPosition="right"
-                titlePosition="top"
-                titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                titleStyle={styles.gridTitle}
-              >
-                <img style={styles.splash} src={Cows} />
-              </GridTile>
-            </GridList>
-
-
-            <Flexbox style={styles.infoBar}>
-
-            </Flexbox>
 
             <Flexbox style={styles.overlay}>
+              <div style={styles.container}>
+                <Nav />
+              </div>
+
               <div style={styles.avatar}>
                   <Avatar style={styles.avatar} size={120} src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.profile.img} />
-              </div>
-              <div style={styles.username}>
-                  {this.props.profile.username}
-              </div>
+                    {this.props.profile.username}
+            </div>
             </Flexbox>
 
+            <Paper style={styles.box} zDepth={3}>
+              <div style={styles.headerText}>
+                Uploads ({this.props.recipeinprofile.length})
+              </div>
+              <List>
+                  {this.props.recipeinprofile.map((tile) => (
+    <ListItem
+      disabled={true}
+      leftAvatar={
+        <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.img} />
+      }
+    >
+      {tile.title}
+    </ListItem>
+    ))}
 
-            <div style={styles.headerText}>
-              Uploads ({this.props.recipeinprofile.length})
-            </div>
-        <Flexbox style={styles.container}>
-          <GridList
-            cols={5}
-            cellHeight={200}
-            padding={1}
-            style={styles.gridList}
-          >
-            {this.props.recipeinprofile.map((tile) => (
-              <GridTile
-                key={tile.id}
-                title={tile.title}
-                titlePosition="bottom"
-                titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                cols={tile.featured ? 1 : 1}
-                rows={tile.featured ? 1 : 1}
-                onClick={() => this.handleDetail(tile)}
-              >
-                <img style={styles.gridImg} src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.img} />
-              </GridTile>
-            ))}
 
-          </GridList>
+  </List>
 
-        </Flexbox>
+
+            </Paper>
 
 
       </div>
@@ -125,7 +108,6 @@ const styles = {
     alignItems: 'center',
     flexWrap: 'wrap',
     flexDirection: 'column',
-    marginTop:-402,
     zIndex: 10,
     position: 'relative',
   },
@@ -137,15 +119,22 @@ const styles = {
     padding: 0
   },
   headerText: {
-    width: '80%',
-    margin: 'auto',
-    marginTop: 40
+    padding: '20px',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    color: 'white'
   },
   container: {
     width: '80%',
     margin: 'auto',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
+  },
+  box: {
+    width: '80%',
+    margin: 'auto',
+    alignItems: 'center',
+    marginTop: 10,
+    backgroundColor: 'rgba(225, 225, 225, 0.4)'
   },
   username: {
     fontSize: '30px',
@@ -196,7 +185,8 @@ const styles = {
   },
   root: {
     margin: 'auto',
-    width: '100vw'
+    width: '100vw',
+
   },
   title: {
     height: 300

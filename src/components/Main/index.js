@@ -9,7 +9,6 @@ import FlexView from 'react-flexview';
 import Flexbox from 'flexbox-react';
 import BottomNavigationExampleSimple from '../Nav/bottomnav';
 import Nav from '../../containers/NavContainer'
-import LeftNav from '../../containers/LeftNavContainer'
 import Paper from 'material-ui/Paper';
 import ReactS3 from 'react-s3';
 import LoadingGif from './loading.gif'
@@ -22,155 +21,78 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ReactS3Uploader from 'react-s3-uploader';
 import Edafocus from '../../containers/EdamFocusContainer';
 import Focus from '../../containers/FocusContainer';
-import GridListExampleComplex from '../../containers/GridContainer'
+import RecipeGrid from '../../containers/GridContainer'
 import TextField from 'material-ui/TextField';
+import Slider from 'react-slick'
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+
+
 require('dotenv').config()
 
 
-
 class Login extends Component {
-  handleSubmit(user) {
-		this.props.actions.login(user);
-  }
-
-  handleDetail(object) {
-    console.log(object);
-     this.props.actions.detail(object);
-     this.props.actions.findcommentsbyrecipe(object);
-  }
-
-
-
-  handleEdamam(object) {
-    this.props.actions.detail(object);
-    this.props.actions.findedamamcomments(object);
-  }
-
-
-  handleSubmitRecipe(recipe) {
-    this.props.actions.submitrecipe(recipe, this.props.user.id);
-  }
 
   componentWillMount(){
-    window.addEventListener('load', this.props.actions.allrecipes);
-    // window.addEventListener('load', this.props.actions.apifetch);
-    // window.addEventListener('load', this.props.actions.edamam(''));
-
+    document.body.style.backgroundColor = "rgb(247,247,247)";
   }
-
-  componentDidMount() {
-
-  }
-
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
-
-  onUploadStart =(file,next)=>{
-    this.props.actions.filename(file.name)
-    next(file)
-  }
-
-  onUploadFinish=(file)=>{
-    this.props.actions.recipeimg(file.filename.split('/')[1])
-  }
-
 
 
 
   render() {
-
-    //pushing all contents of recipe DB into an array for rendering in the DOM
-    let rows = [];
-    let rows2 =[];
-    let search = [];
-    let allrecipes = this.props.allrecipes
-
-    for(let i = 0; i <= (allrecipes.length-1); i++) {
-      rows.push(<Flexbox onClick={() => this.handleDetail(allrecipes[i])}><Card style={cardStyle} key={i}>
-       <CardMedia overlay={<CardTitle title={allrecipes[i].title} subtitle={allrecipes[i].description} />}>
-         <img src={'https://s3.amazonaws.com/vcbc/recipes/'+allrecipes[i].img} alt="" />
-       </CardMedia>
-     </Card></Flexbox>);
-     search.push(allrecipes[i].title)
-    }
-
-    if (this.props.allrecipes) {
-      {this.props.allrecipes.map(function(object){
-        rows2.push(<Card onClick={() => this.handleDetail(object)} style={cardStyle} >
-         <CardMedia overlay={<CardTitle title={object.title} subtitle={object.description} />}>
-           <img style={cardImgStyle} src={'https://s3.amazonaws.com/vcbc/recipes/'+object.img} alt="" />
-         </CardMedia>
-       </Card>)
-      })}
-    }
-
-    //array push for external recipe api data
-
-    let f2farr = [];
-    let f2f = this.props.food2fork.recpies
-
-
-
-    if (this.props.food2fork.recipes) {
-      for(let i = 0; i <= (this.props.food2fork.recipes.length-1); i++) {
-          f2farr.push(<Card key={i} style={cardStyle} onClick={() => this.handleDetail(this.props.food2fork.recipes[i])}>
-           <CardMedia overlay={<CardTitle title={this.props.food2fork.recipes[i].title} subtitle={this.props.food2fork.recipes[i].publisher} />}>
-             <img style={cardImgStyle} src={this.props.food2fork.recipes[i].image_url} alt="" />
-           </CardMedia>
-         </Card>)
-       }
-
-    }
-
-    //array push for edamam data
-
-    let edamamarr=[];
-    if (this.props.edamam) {
-      for(let e = 0; e <= (this.props.edamam.length-1); e++) {
-          edamamarr.push(<Card style={cardStyle} key={e} onClick={() => this.handleEdamam(this.props.edamam[e].recipe)} >
-           <CardMedia overlay={<CardTitle title={this.props.edamam[e].recipe.label} subtitle={this.props.edamam[e].recipe.source} />}>
-             <img style={cardImgStyle} src={this.props.edamam[e].recipe.image} alt="" />
-           </CardMedia>
-         </Card>)
-       }
-       console.log(edamamarr);
-    }
-
-
-
-
-    //array push for comments
-
-    let allcomments = this.props.comments;
-    console.log(allcomments);
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 2,
+        autoplay: true,
+     autoplaySpeed: 3000,
+     adaptiveHeight: true
+      };
 
 
     const { className, ...props } = this.props;
+    let data = this.props.allrecipes
     return (
       <div className={classnames('App', className)} {...props}>
           <div>
             <div style={styles.nav}>
               <Nav />
             </div>
-            {this.props.isMainActivated &&
+            <div style={styles.slider}>
+            <Slider {...settings}>
+                {data.map((tile) => (
+                <Link to={`/recipe/${tile.id}`}>
+                  <GridTile
+                      key={tile.id}
+                      title={tile.title}
+                      actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                      actionPosition="left"
+                      titlePosition="top"
+                      titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                      titleStyle={styles.title}
+                    >
+                  <img style={styles.tileImg} src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.img} />
+                </GridTile>
+              </Link>
+                ))}
+
+
+          </Slider>
+        </div>
               <Flexbox>
-
                 <div style={sectionStyle}>
-
-
-
 
                    {!this.props.allrecipes &&
                      <img style={styles.loadingGif} src={LoadingGif} />
                    }
 
 
-                  <GridListExampleComplex />
+                  <RecipeGrid />
                 </div>
                </Flexbox>
-            }
       </div>
 
 
@@ -255,27 +177,7 @@ class Login extends Component {
                 </Form>
 
             </Paper>
-
-
         }
-
-        {this.props.isToolsActivated &&
-            <Paper style={paper} zDepth={3} rounded={true} >
-              <p>This is the calculator and scaler page</p>
-            </Paper>
-        }
-
-        {this.props.isFocusActivated &&
-            <Focus />
-        }
-
-        {this.props.isEdamFocus &&
-          <Edafocus />
-        }
-
-
-
-
 
       </div> //this is the last closing div
     );
@@ -317,16 +219,28 @@ const styles = {
   chip: {
     margin: 4,
   },
+  tile: {
+    height: '600px'
+  },
   wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
   },
+  tileImg: {
+    height: 400
+  },
   nav: {
-    maxWidth:'100vw',
-    height: 130,
-    opacity: .92,
-    position: 'relative',
-    zIndex: 2
+    width: '80%',
+    margin: 'auto',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  slider: {
+    maxHeight: 400,
+    marginBottom: '40px',
+    border: 'dotted',
+    borderWidth: 1,
+    borderColor: 'red'
   },
   loadingGif: {
     margin:'auto',

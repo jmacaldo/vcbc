@@ -7,6 +7,8 @@ import Submit from './containers/SubmitContainer';
 import Profile from './containers/ProfileContainer';
 import Recipe from './containers/RecipeContainer';
 import ApiRecipe from './containers/ApiRecipeContainer';
+import SearchPage from './containers/SearchPageContainer';
+import AutoCompleteExampleDataSource from './containers/ExampleContainer'
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -21,7 +23,10 @@ const Routes = () => {
         <Route exact path="/submit" component={Submit} />
         <Route exact path="/profile/:username" component={Profile} />
         <Route exact path="/recipe/:id" component={Recipe} />
-        <Route exact path="/api/:uri/*/*/*/" component={ApiRecipe} />
+        <Route exact path="/api/:uri" component={ApiRecipe} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/example" component={AutoCompleteExampleDataSource} />
+        <Route exact path="/search/:query" component={SearchPage} />
       </div>
     </Router>
   )

@@ -16,12 +16,18 @@ import TextField from 'material-ui/TextField';
 import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
+import Nav from '../../containers/NavContainer'
 
-export default class Focus extends Component {
+export default class Recipe extends Component {
 
   state = {
     rating: '',
   };
+
+  componentWillMount(){
+    this.props.actions.findbyid(this.props.match.params.id);
+
+  }
 
 
   handleSubmitComment(comment){

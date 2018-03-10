@@ -20,7 +20,8 @@ function mapStateToProps(state) {
     recipeFocus: state.demo.recipeFocus,
     diagOpen: state.demo.diagOpen,
     comments: state.demo.comments,
-    food2fork: state.demo.food2fork
+    food2fork: state.demo.food2fork,
+    edamam: state.demo.edamam
 
   }
 }

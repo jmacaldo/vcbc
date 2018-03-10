@@ -27,6 +27,7 @@ export default class Recipe extends Component {
   componentWillMount(){
     this.props.actions.findbyid(this.props.match.params.id)
     this.props.actions.findcommentsbyrecipe(this.props.match.params.id)
+    document.body.style.backgroundColor = "rgb(247,247,247)";
   }
 
 
@@ -40,15 +41,14 @@ export default class Recipe extends Component {
     const { className, ...props } = this.props;
 
     let tagsarr = [];
-    let arr = this.props.recipeFocus.tags
 
     console.log(this.props);
 
-    if (arr){
+    if (this.props.recipeFocus.tags){
 
-    for(let i = 0; i <= (arr.split(',').length-1); i++) {
+    for(let i = 0; i <= (this.props.recipeFocus.tags.split(',').length-1); i++) {
       tagsarr.push(<div style={styles.wrapper} key={i}><Chip style={styles.chip}>
-             {arr.split(',')[i]}
+             {this.props.recipeFocus.tags.split(',')[i]}
         </Chip></div>);
       }
     }
@@ -126,7 +126,9 @@ console.log(avgrating);
 
     return (
       <div style={styles.main}>
-        <Nav />
+        <div style={styles.container}>
+          <Nav />
+        </div>
           <div style={styles.root}>
             <GridList cols={1} cellHeight='400'>
                 <GridTile
@@ -260,28 +262,42 @@ const styles = {
     fontSize: '30px',
     marginTop: 15
   },
+  container: {
+    width: '80%',
+    margin: 'auto',
+    alignItems: 'center',
+    marginTop: 10,
+  },
   infoLabel: {
     fontSize: '15px',
     marginTop: -15,
     color: 'rgb(200,200,200)'
   },
   commentHeader:{
+    maxWidth: '1000px',
     fontSize: '30px',
-    marginBottom: '10px'
+    marginBottom: '10px',
+    margin: 'auto',
+    alignItems: 'center',
+    marginTop: 10,
   },
   infoContainer: {
     flexWrap: 'wrap-reverse',
     width: '90%'
   },
   commentBox: {
-    width: '100%',
+    maxWidth: '1000px',
     margin: 'auto',
     padding: 25,
     marginBottom: 40
   },
   commentContainer: {
-    width: '65%',
-    margin: 'auto'
+    margin: 'auto',
+    maxWidth: '1000px',
+    marginBottom: '10px',
+    margin: 'auto',
+    alignItems: 'center',
+    marginTop: 10,
   },
   wrapper: {
     display: 'flex',

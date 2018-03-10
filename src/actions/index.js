@@ -109,6 +109,7 @@ export const edamamdata = (edamam) => {
     return { type: EDAMAM, edamam}
 }
 
+
 //load a user profile to state
 export const USER_PROFILE = "USER_PROFILE"
 export const loaduserprofile = (user) => {
@@ -331,12 +332,22 @@ export const apifetch =() =>{
 
 //fetch from edamam api
 export const edamam =(search) =>{
-  console.log('edamam backend fired');
   return dispatch => {
-    axios.post(`http://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${search}&health=vegan&to=40&app_id=8c9d8719&app_key=4b681450874f79b4c4c8c72508248109`)
+    axios.post(`https://api.edamam.com/search?q=${search}&health=vegan&to=40&app_id=8c9d8719&app_key=4b681450874f79b4c4c8c72508248109`)
     .then (res =>{
-      console.log(res.data.hits);
       dispatch(edamamdata(res.data.hits))
+    })
+  }
+}
+
+//fetch specific recipe based on uri search
+export const edamamurisearch =(search) =>{
+  return dispatch => {
+    console.log(search);
+    axios.post(`https://api.edamam.com/search?r=${search}&app_id=8c9d8719&app_key=4b681450874f79b4c4c8c72508248109`)
+    .then (res =>{
+      console.log(res);
+      dispatch(edamfocustoprops(res.data[0]))
     })
   }
 }
@@ -354,5 +365,18 @@ export const loadUser =(username) =>{
       })
 
     })
+  }
+}
+
+//go to external recipe website
+export const goToExternal =(url) =>{
+  return dispatch => {
+    axios.get(url)
+  }
+}
+
+export const searchHandle =(query) =>{
+  return dispatch => {
+    axios.post(`/api/redirect`, {query:query})
   }
 }

@@ -22,7 +22,8 @@ function mapStateToProps(state) {
     comments: state.demo.comments,
     food2fork: state.demo.food2fork,
     edamamfocus: state.demo.edamamfocus,
-    isEdamFocus: state.demo.isEdamFocus
+    isEdamFocus: state.demo.isEdamFocus,
+    edamam: state.demo.edamam
 
   }
 }

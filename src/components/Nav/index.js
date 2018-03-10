@@ -39,6 +39,10 @@ export default class Nav extends Component {
       value:''
     };
   }
+
+  componentWillMount(){
+    window.addEventListener('load', this.props.actions.allrecipes);
+  }
   handleSubmit(user) {
     this.props.actions.login(user);
   }
@@ -95,37 +99,12 @@ this.setState({
 
     return (
       <div>
-      <Paper rounded={true} style={styles.paper}>
       <Flexbox style={styles.flex}>
-        <Link to={'/'}><img style={styles.logo} src={logo} /></Link>
-            <Popover
-            open={this.state.open}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-            onRequestClose={this.handleRequestClose}
-          >
-            <Menu>
-              {!this.props.isauthenticated &&
-                <div>
-                  <MenuItem onClick={this.props.actions.loginbtn} primaryText="Main" leftIcon={<ContentCreate />} />
-                  <MenuItem onClick={this.handleOpen} primaryText="Login" leftIcon={<ActionGrade />} />
-                </div>
-              }
-              {this.props.isauthenticated &&
-                <div>
-                  <Link to={`/profile/${this.props.user.username}`}><MenuItem onClick={this.props.actions.submitbtn} primaryText="My profile" leftIcon={<ContentCreate />} /></Link>
-                  <MenuItem onClick={this.props.actions.submitbtn} primaryText="Submit a recipe" leftIcon={<ContentCreate />} />
-                  <MenuItem primaryText="Logout" leftIcon={<ContentDrafts />} />
-                </div>
-              }
-              <Divider inset={true} />
-              <MenuItem onClick={this.props.actions.toolsbtn} primaryText="Recipe Tools" leftIcon={<ContentInbox />} />
-            </Menu>
-          </Popover>
-          <div style={styles.search}>
-            <Search />
-          </div>
+        <Link to={`/`}><img style={styles.logo} src={logo} /></Link>
+
+        <div style={styles.search}>
+          <Search />
+        </div>
 
           {!this.props.isauthenticated &&
             <Flexbox onClick={this.handleOpen} id={styles.avatartop}><Avatar size={60} src={'https://s3.amazonaws.com/vcbc/avatars/defaultavatar.png'} /><div style={styles.username}>Login! </div></Flexbox>
@@ -138,11 +117,36 @@ this.setState({
 
       </Flexbox>
 
+      <Popover
+        open={this.state.open}
+        anchorEl={this.state.anchorEl}
+        anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+        targetOrigin={{horizontal: 'right', vertical: 'top'}}
+        onRequestClose={this.handleRequestClose}
+        >
+        <Menu>
+          {!this.props.isauthenticated &&
+            <div>
+              <MenuItem onClick={this.props.actions.loginbtn} primaryText="Main" leftIcon={<ContentCreate />} />
+              <MenuItem onClick={this.handleOpen} primaryText="Login" leftIcon={<ActionGrade />} />
+            </div>
+          }
+          {this.props.isauthenticated &&
+            <div>
+              <Link to={`/profile/${this.props.user.username}`}><MenuItem onClick={this.props.actions.submitbtn} primaryText="My profile" leftIcon={<ContentCreate />} /></Link>
+              <MenuItem onClick={this.props.actions.submitbtn} primaryText="Submit a recipe" leftIcon={<ContentCreate />} />
+              <MenuItem primaryText="Logout" leftIcon={<ContentDrafts />} />
+            </div>
+          }
+          <Divider inset={true} />
+          <MenuItem onClick={this.props.actions.toolsbtn} primaryText="Recipe Tools" leftIcon={<ContentInbox />} />
+        </Menu>
+    </Popover>
 
 
 
 
-      </Paper>
+
       <Dialog
          modal={false}
          open={this.state.diag}
@@ -189,19 +193,26 @@ this.setState({
 const styles ={
 
   logo: {
-    height: 100
+    height: 100,
+    paddingRight: '30px'
+  },
+  menu: {
+    paddingLeft: '30px'
   },
   flex: {
-    width:'100vw',
+    width:'80vw',
     flexDirection: 'row',
-    backgroundColor: 'white',
     height: 100,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'flex-end',
-    paddingTop: 10,
+    paddingTop: 20,
     paddingBottom: 20,
-
-
+  },
+  username: {
+    marginBottom: 5,
+    marginLeft: 10,
+    marginTop: 20,
+    marginRight: '30px'
   },
   loginRight:{
     paddingLeft: 40
@@ -211,7 +222,8 @@ const styles ={
   },
   avatartop: {
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: '30px'
   },
   left: {
     padding: 0,
@@ -219,19 +231,14 @@ const styles ={
     marginBottom: -25
   },
   search: {
-    width:'80vw',
-    marginBottom:18
+     width:'90%',
+    marginBottom:18,
+
   },
   login:{
     padding:  0,
     margin: 0,
     flexWrap: 'wrap'
-  },
-  username: {
-    marginBottom: 5,
-    marginLeft: 10,
-    marginRight: 30,
-    marginTop: 20
   },
   loginImg: {
     width: '100%',

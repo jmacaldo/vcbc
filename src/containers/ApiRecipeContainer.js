@@ -11,20 +11,13 @@ function mapStateToProps(state) {
     user: state.demo.user,
     allrecipes: state.demo.allrecipes,
     detail: state.demo.detail,
-    isMainActivated: state.demo.isMainActivated,
-    isRegActivated: state.demo.isRegActivated,
-    isSubmitActivated: state.demo.isSubmitActivated,
-    isToolsActivated: state.demo.isToolsActivated,
     isregistered: state.demo.isRegistered,
-    isFocusActivated: state.demo.isFocusActivated,
     recipeFocus: state.demo.recipeFocus,
-    diagOpen: state.demo.diagOpen,
     comments: state.demo.comments,
-    food2fork: state.demo.food2fork,
-    edamamfocus: state.demo.edamamfocus,
-    isEdamFocus: state.demo.isEdamFocus,
+    edamam: state.demo.edamam,
     profile: state.demo.profile,
-    recipeinprofile:  state.demo.recipeinprofile
+    recipeinprofile:  state.demo.recipeinprofile,
+    edamamfocus: state.demo.edamamfocus
 
   }
 }

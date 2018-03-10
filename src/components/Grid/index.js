@@ -15,24 +15,41 @@ import edamamdata from './edamamdata.js'
 import { Link } from 'react-router-dom';
 
 export default class Grid extends Component {
+  constructor(props) {
+    super(props);
+
+    this.clickHandler = this.clickHandler.bind(this);
+  }
+
+  componentWillMount(){
+
+    // window.addEventListener('load', this.props.actions.apifetch);
+    // window.addEventListener('load', this.props.actions.edamam(''));
+
+
+  }
 
   handleDetail(tile) {
-    console.log(tile);
      this.props.actions.detail(tile);
      this.props.actions.findcommentsbyrecipe(tile);
+  }
+  clickHandler(e,id){
+    e.preventDefault();
+    console.log('this is a test', id);
+    window.location = `/recipe/`+id;
   }
 
   handleEdamam(tile) {
     this.props.actions.edamamfocus(tile.recipe);
-    console.log('eda front', tile.recipe.uri);
     this.props.actions.findedamamcomments(tile.recipe.uri);
   }
 
   render() {
-    console.log(edamamdata.recipe);
     const { className, ...props } = this.props;
 
+
     let data = this.props.allrecipes
+
 
     return (
       <div style={styles.root}>
@@ -43,7 +60,7 @@ export default class Grid extends Component {
           style={styles.gridList}
         >
           {data.map((tile) => (
-          <Link to={`/recipe/${tile.id}`}>  <GridTile
+          <Link to={`/recipe/${tile.id}`}><GridTile
               key={tile.id}
               title={tile.title}
               actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
@@ -57,7 +74,7 @@ export default class Grid extends Component {
             </GridTile></Link>
           ))}
           {edamamdata.map((tile) => (
-              <Link to={`/api/${tile.recipe.uri}`}><GridTile
+              <Link to={`/api/${tile.recipe.uri.split("#")[1]}`}><GridTile
               key={tile.recipe.uri}
               title={tile.recipe.label}
               actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
@@ -66,7 +83,6 @@ export default class Grid extends Component {
               titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
               cols={tile.featured ? 2 : 1}
               rows={tile.featured ? 1 : 1}
-              onClick={() => this.handleEdamam(tile)}
             >
               <img src={tile.recipe.image} />
             </GridTile></Link>
