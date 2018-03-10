@@ -48,10 +48,10 @@ router.post('/ingredient', function(req, res, next) {
 
 //find ingredients by recipe
 router.post('/findbyid', function(req, res, next) {
-  Ingredient.sync().then(function(){
-    Ingredient.findAll({
+  Recipe.sync().then(function(){
+    Recipe.findAll({
       where: {
-        recipe_id: req.body.id
+        id: req.body.id
       }
     })
     .then(
@@ -62,12 +62,14 @@ router.post('/findbyid', function(req, res, next) {
   });
 });
 
-//findAll recpies for display to the main page
-router.post('/findall', function(req, res, next) {
-  console.log('findall backend fired!');
+//find by user id to display to user page
+router.post('/findbyuserid', function(req, res, next) {
+  console.log('findbyuserid backend fired!');
   Recipe.sync().then(function(){
     Recipe.findAll({
-      include: [Users],
+      where: {
+        user_id: req.body.id
+      },
       order: [
         ['id', 'DESC']
       ]
@@ -79,6 +81,24 @@ router.post('/findall', function(req, res, next) {
     ).catch(next);
   });
 });
+
+//find all recipes for display to the main page
+router.post('/findall', function(req, res, next) {
+  Recipe.sync().then(function(){
+    Recipe.findAll({
+      order: [
+        ['id', 'DESC']
+      ]
+    })
+    .then(
+      function(result){
+        res.status(200).send(result);
+      }
+    ).catch(next);
+  });
+});
+
+
 
 
 

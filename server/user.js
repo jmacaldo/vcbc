@@ -41,8 +41,18 @@ router.post('/register', function(req, res, next) {
       })
       .catch(next);
     });
+  });
 });
 
+//find user by username
+router.post('/findByUsername', function(req, res, next) {
+  Users.findOne({
+    where: {
+      username: req.body.username
+    }
+  }).then(result => {
+    res.status(200).send(result);
+  })
 
 });
 

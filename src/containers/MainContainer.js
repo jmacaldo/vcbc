@@ -6,22 +6,17 @@ import Main from '../components/Main'
 
 function mapStateToProps(state) {
   return {
-    results: state.demo.results,
     isauthenticated: state.demo.isAuthenticated,
     user: state.demo.user,
     allrecipes: state.demo.allrecipes,
     detail: state.demo.detail,
-    isMainActivated: state.demo.isMainActivated,
-    isRegActivated: state.demo.isRegActivated,
-    isSubmitActivated: state.demo.isSubmitActivated,
-    isToolsActivated: state.demo.isToolsActivated,
     isregistered: state.demo.isRegistered,
-    isFocusActivated: state.demo.isFocusActivated,
     recipeFocus: state.demo.recipeFocus,
     diagOpen: state.demo.diagOpen,
     comments: state.demo.comments,
     food2fork: state.demo.food2fork,
-    edamam: state.demo.edamam
+    edamam: state.demo.edamam,
+    isEdamFocus: state.demo.isEdamFocus
 
   }
 }

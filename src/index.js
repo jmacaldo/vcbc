@@ -12,17 +12,24 @@ import rootReducer from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import 'react-flexview/lib/flexView.css'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {green600} from 'material-ui/styles/colors';
 
 
 const middleware = applyMiddleware(thunk, createLogger());
 const store = createStore(rootReducer, composeWithDevTools(
   middleware,
 ));
-
+const muiTheme = getMuiTheme({
+  fontFamily: 'Raleway',
+  palette: {
+    primary1Color: green600,
+  }
+});
 
 ReactDOM.render(
   <Provider store={store}>
-     <MuiThemeProvider>
+     <MuiThemeProvider muiTheme={muiTheme}>
        <Routes />
      </MuiThemeProvider>
   </Provider>,

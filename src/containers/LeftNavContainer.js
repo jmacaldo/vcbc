@@ -2,7 +2,7 @@ import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
-import Nav from '../components/Main/leftnav'
+import Nav from '../components/Main/'
 
 function mapStateToProps(state) {
   return {

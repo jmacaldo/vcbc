@@ -11,6 +11,14 @@ const Comments = db.define('comments', {
   cooktime: {
   	type: Sequelize.INTEGER,
   	allowNull: false
+  },
+  edamam_uri: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  rating: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   }
 })
 

@@ -71,7 +71,6 @@ const avedom = () =>{
     let userid = this.props.user.id;
 
 
-
     return (
       <div>
           <CardHeader title={this.props.data.user.username} subtitle="Subtitle" avatar={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.data.user.img}  />
