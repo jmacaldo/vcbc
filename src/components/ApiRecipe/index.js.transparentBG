@@ -166,23 +166,21 @@ return (
         <GridList cols={1} cellHeight='300'>
             <GridTile
               key={this.props.edamamfocus.uri}
+              title={this.props.edamamfocus.label}
               actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
               actionPosition="right"
               titlePosition="top"
               titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
               titleStyle={this.props.edamamfocus.label}
             >
-              <img src={this.props.edamamfocus.image} />
+              <img src={cow} />
             </GridTile>
           </GridList>
           <Flexbox style={styles.infoBar}>
 
           </Flexbox>
-            <div style={styles.imgContainer}>
+
           <Flexbox style={styles.infoBarOverlay}>
-          <div style={styles.info}>
-            <img style={styles.imgthumb} src={this.props.edamamfocus.image} />
-          </div>
             <div style={styles.info}>
               {this.props.edamamfocus.source} <div style={styles.infoLabel}><p><i>Source</i></p></div>
             </div>
@@ -193,7 +191,6 @@ return (
               {Math.floor(this.props.edamamfocus.calories)} <div style={styles.infoLabel}><p><i>Calories</i></p></div>
             </div>
           </Flexbox>
-          </div>
 
 
     <div style={styles.commentContainer}>
@@ -209,7 +206,7 @@ return (
                   <List>
                     {ingredientarr}
                   </List>
-                  <a href={this.props.edamamfocus.url} target="_blank"><RaisedButton label="CREATE THIS RECIPE" fullWidth={true} /></a>
+                  <RaisedButton label="CREATE THIS RECIPE" fullWidth={true} onClick={this.props.actions.goToExternal(this.props.edamamfocus.url)} />
                   <div id="edamam-badge" data-color="transparent"></div>
                 </Paper>
               </div>
@@ -361,9 +358,6 @@ const styles = {
     alignItems: 'center',
     marginTop: 10,
   },
-  imgthumb: {
-    maxHeight: 250
-  },
   infoBar: {
     width:'100%',
     height:300,
@@ -377,11 +371,11 @@ const styles = {
     zIndex: 0
   },
   infoBarOverlay: {
-    width:'70%',
+    width:'100%',
     height:300,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     flexWrap: 'wrap',
     marginTop: -300,
     position: 'absolute',
@@ -415,23 +409,25 @@ const styles = {
   },
   ingredientsPaper: {
     fontSize: '15px',
+    backgroundColor: 'rgba(225, 225, 225, 0.4)'
   },
   nutritionDiv: {
     marginTop: '20px',
     width: '45%',
-    minWidth: '40%'
+    minWidth: '40%',
   },
   tablepaper: {
-    width: '100%'
+    width: '100%',
   },
   table: {
-    width: '100%'
+    width: '100%',
+    backgroundColor: 'rgba(225, 225, 225, 0.4)'
   },
   nutrition: {
     flexWrap: 'wrap',
     width: '100%',
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
   },
   infoContainer: {
     flexWrap: 'wrap-reverse',
@@ -447,11 +443,6 @@ const styles = {
     width: '70%',
     margin: 'auto',
     marginTop: '20px'
-  },
-  imgContainer: {
-    width: '70%',
-    margin: 'auto',
-    marginTop: -15
   },
   wrapper: {
     display: 'flex',

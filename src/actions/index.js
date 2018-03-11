@@ -109,6 +109,10 @@ export const edamamdata = (edamam) => {
     return { type: EDAMAM, edamam}
 }
 
+export const logoutUser = () => {
+    return { type: NO_AUTH }
+}
+
 
 //load a user profile to state
 export const USER_PROFILE = "USER_PROFILE"

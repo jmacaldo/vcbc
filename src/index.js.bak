@@ -15,24 +15,11 @@ import 'react-flexview/lib/flexView.css'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {green600} from 'material-ui/styles/colors';
 
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import { PersistGate } from 'redux-persist/integration/react'
-
-const persistConfig = {
-  key: 'root',
-  storage,
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const middleware = applyMiddleware(thunk, createLogger());
-const store = createStore(persistedReducer, composeWithDevTools(
+const store = createStore(rootReducer, composeWithDevTools(
   middleware,
 ));
-
-let persistor = persistStore(store)
-
 const muiTheme = getMuiTheme({
   fontFamily: 'Raleway',
   palette: {
@@ -42,11 +29,9 @@ const muiTheme = getMuiTheme({
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
      <MuiThemeProvider muiTheme={muiTheme}>
        <Routes />
      </MuiThemeProvider>
-   </PersistGate> 
   </Provider>,
   document.getElementById('root')
 );

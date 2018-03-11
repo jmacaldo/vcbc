@@ -109,6 +109,7 @@ export const edamamdata = (edamam) => {
     return { type: EDAMAM, edamam}
 }
 
+
 //load a user profile to state
 export const USER_PROFILE = "USER_PROFILE"
 export const loaduserprofile = (user) => {
@@ -346,7 +347,7 @@ export const edamamurisearch =(search) =>{
     axios.post(`https://api.edamam.com/search?r=${search}&app_id=8c9d8719&app_key=4b681450874f79b4c4c8c72508248109`)
     .then (res =>{
       console.log(res);
-      dispatch(edamamdata(res.data[0]))
+      dispatch(edamfocustoprops(res.data[0]))
     })
   }
 }
@@ -364,5 +365,18 @@ export const loadUser =(username) =>{
       })
 
     })
+  }
+}
+
+//go to external recipe website
+export const goToExternal =(url) =>{
+  return dispatch => {
+    axios.get(url)
+  }
+}
+
+export const searchHandle =(query) =>{
+  return dispatch => {
+    axios.post(`/api/redirect`, {query:query})
   }
 }

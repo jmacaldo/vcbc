@@ -20,7 +20,7 @@ const initialState = {
 const demo = (state = initialState, action) => {
     switch (action.type) {
         case NO_AUTH:
-            return { ...state, isAuthenticated: false }
+            return { ...state, isAuthenticated: false, isRegistered: false }
         case AUTHED:
             return { ...state, user: action.user, isMainActivated: true, isRegistered: true, isAuthenticated: true, isRegActivated: false}
         case IS_REGISTERED:

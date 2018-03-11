@@ -135,7 +135,7 @@ this.setState({
             <div>
               <Link to={`/profile/${this.props.user.username}`}><MenuItem onClick={this.props.actions.submitbtn} primaryText="My profile" leftIcon={<ContentCreate />} /></Link>
               <MenuItem onClick={this.props.actions.submitbtn} primaryText="Submit a recipe" leftIcon={<ContentCreate />} />
-              <MenuItem primaryText="Logout" onClick={this.props.actions.logoutUser} leftIcon={<ContentDrafts />} />
+              <MenuItem primaryText="Logout" leftIcon={<ContentDrafts />} />
             </div>
           }
           <Divider inset={true} />
