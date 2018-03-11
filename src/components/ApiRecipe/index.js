@@ -183,6 +183,7 @@ return (
           <div style={styles.info}>
             <img style={styles.imgthumb} src={this.props.edamamfocus.image} />
           </div>
+
             <div style={styles.info}>
               {this.props.edamamfocus.source} <div style={styles.infoLabel}><p><i>Source</i></p></div>
             </div>
@@ -245,7 +246,7 @@ return (
           >
             {edamamdata[24].recipe.digest.map( (row, index) => (
               <TableRow key={index}>
-                <TableRowColumn><b>{row.label}</b></TableRowColumn>
+                <TableRowColumn><div style={styles.nutLabel}>{row.label}</div></TableRowColumn>
                 <TableRowColumn>{Math.floor(row.total)} {row.unit}</TableRowColumn>
                 <TableRowColumn>{Math.floor(row.daily)} %</TableRowColumn>
               </TableRow>
@@ -452,6 +453,9 @@ const styles = {
     width: '70%',
     margin: 'auto',
     marginTop: -15
+  },
+  nutLabel: {
+    fontWeight: 'bold'
   },
   wrapper: {
     display: 'flex',

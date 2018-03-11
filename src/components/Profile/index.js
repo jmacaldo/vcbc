@@ -14,7 +14,7 @@ import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
 import Nav from '../../containers/NavContainer'
-import Cows from './farm.jpeg'
+import Cows from './farmBlur.jpg'
 
 
 
