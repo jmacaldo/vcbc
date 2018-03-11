@@ -23,7 +23,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ReactS3Uploader from 'react-s3-uploader';
 import Sample from './sample.jpg'
 import AppBarExampleComposition from './appbar'
-require('dotenv').config()
 
 
 

@@ -1,4 +1,3 @@
-require('dotenv').config()
 var pg = require('pg');
 pg.defaults.ssl = true;
 const debug = require('debug')('sql')
