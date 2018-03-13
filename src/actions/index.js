@@ -132,14 +132,14 @@ export const loaduserprofile = (user) => {
 
 //load recipes in profile
 export const RECIPE_IN_PROFILE = "RECIPE_IN_PROFILE"
-export const loadrecipeinprofile = (recipes) => {
-    return { type: RECIPE_IN_PROFILE, recipes}
+export const loadrecipeinprofile = (userrecipes) => {
+    return { type: RECIPE_IN_PROFILE, userrecipes}
 }
 
 //set user local faves in to state
 export const LOAD_LOCAL_FAVES = "LOAD_LOCAL_FAVES"
-export const localfavetostate = (recipes) => {
-    return { type: LOAD_LOCAL_FAVES, recipes}
+export const localfavetostate = (faves) => {
+    return { type: LOAD_LOCAL_FAVES, faves}
 }
 
 
@@ -387,6 +387,8 @@ export const loadUser =(username) =>{
       axios.post(`/api/recipe/findbyuserid`, {id: res.data.id})
       .then(res => {
         dispatch(loadrecipeinprofile(res.data))
+        console.log('user recipes');
+        console.log(res);
       })
       // .then(res => {
       // //  console.log(res.data);
@@ -425,11 +427,15 @@ export const localFave =(user, recipe) =>{
 export const faveApi =(user, recipe, label, image) =>{
   return dispatch => {
     console.log(user,recipe,label,image);
-  axios.post(`/api/apiFaves`, {
+  axios.post(`/api/apiFave`, {
     user:user,
     recipe:recipe,
     label: label,
     image: image})
+    .then(res => {
+      dispatch(setFaveTrue())
+    })
+
   }
 }
 
@@ -446,7 +452,6 @@ export const isLocalFave =(user, recipe) =>{
   return dispatch => {
   axios.post(`/api/localFaves/isLocalFave`, {user:user, recipe:recipe})
   .then(res => {
-
     if (res.data.id >= 1) {
       console.log('fave found');
       console.log(res.data);
@@ -454,8 +459,25 @@ export const isLocalFave =(user, recipe) =>{
     } else {
       console.log('no fave found');
       console.log(res.data);
-
     }
   })
+  }
+}
+
+//check whether an api recipe is a fave
+export const isApiFave =(user, recipe) =>{
+  return dispatch => {
+    console.log('is api fave', user, recipe);
+  // axios.post(`/api/localFaves/isLocalFave`, {user:user, recipe:recipe})
+  // .then(res => {
+  //   if (res.data.id >= 1) {
+  //     console.log('fave found');
+  //     console.log(res.data);
+  //     dispatch(setFaveTrue())
+  //   } else {
+  //     console.log('no fave found');
+  //     console.log(res.data);
+  //   }
+  // })
   }
 }

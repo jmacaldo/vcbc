@@ -7,6 +7,7 @@ const comments = require('./comments')
 const uploader = require('./uploader')
 const food2fork = require('./food2fork')
 const localFaves = require('./localFaves')
+const apiFaves = require('./apiFaves')
 // import products from './products';
 api
   .get('/express-test', (req, res) => res.send({express: 'working!'})) //demo route to prove api is working
@@ -18,5 +19,6 @@ api
   .use('/uploader', uploader)
   .use('/food2fork', food2fork)
   .use('/localFaves', localFaves)
+  .use('/apiFave', apiFaves)
 // No routes matched? 404.
 api.use((req, res) => res.status(404).end())

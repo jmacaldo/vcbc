@@ -64,6 +64,7 @@ export default class ApiRecipe extends Component {
     console.log(uri);
     this.props.actions.edamamurisearch(uri)
     this.props.actions.findedamamcomments(this.props.match.params.uri)
+    this.props.actions.isApiFave(this.props.user.id, uri)
   }
 
   render() {
