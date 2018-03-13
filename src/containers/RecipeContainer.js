@@ -11,7 +11,8 @@ function mapStateToProps(state) {
     allrecipes: state.demo.allrecipes,
     detail: state.demo.detail,
     recipeFocus: state.demo.recipeFocus,
-    comments: state.demo.comments
+    comments: state.demo.comments,
+    fave: state.demo.isFave
 
   }
 }

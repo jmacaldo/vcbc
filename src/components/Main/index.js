@@ -10,7 +10,6 @@ import Flexbox from 'flexbox-react';
 import BottomNavigationExampleSimple from '../Nav/bottomnav';
 import Nav from '../../containers/NavContainer'
 import Paper from 'material-ui/Paper';
-import ReactS3 from 'react-s3';
 import LoadingGif from './loading.gif'
 import Chip from 'material-ui/Chip';
 import AddRecipe from './addrecipe'
@@ -29,7 +28,6 @@ import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 
-require('dotenv').config()
 
 
 class Login extends Component {

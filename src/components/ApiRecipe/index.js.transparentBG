@@ -30,8 +30,6 @@ import {
 import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
 
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import FaveBorder from 'material-ui/svg-icons/action/favorite-border';
 
 
 export default class ApiRecipe extends Component {
@@ -64,11 +62,6 @@ export default class ApiRecipe extends Component {
     console.log(uri);
     this.props.actions.edamamurisearch(uri)
     this.props.actions.findedamamcomments(this.props.match.params.uri)
-    this.props.actions.isApiFave(this.props.user.id, 'http://www.edamam.com/ontologies/edamam.owl#'+ this.props.match.params.uri)
-  }
-
-  componentWillUnmount(){
-    this.props.actions.faveFalse()
   }
 
   render() {
@@ -163,12 +156,6 @@ console.log(newRating)
 console.log(this.state.rating);
 }
 
-const faveHandler =(e,user,recipe) =>{
-  e.preventDefault();
-  this.props.actions.faveApi(user,this.props.edamamfocus.uri, this.props.edamamfocus.label, this.props.edamamfocus.image)
-}
-
-
 
 return (
   <div style={styles.main}>
@@ -179,24 +166,21 @@ return (
         <GridList cols={1} cellHeight='300'>
             <GridTile
               key={this.props.edamamfocus.uri}
-              actionIcon={<IconButton><StarBorder onClick={(e)=>faveHandler(e,userid,recipeid)} color="white" /></IconButton>}
+              title={this.props.edamamfocus.label}
+              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
               actionPosition="right"
               titlePosition="top"
               titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
               titleStyle={this.props.edamamfocus.label}
             >
-              <img src={this.props.edamamfocus.image} />
+              <img src={cow} />
             </GridTile>
           </GridList>
           <Flexbox style={styles.infoBar}>
 
           </Flexbox>
-            <div style={styles.imgContainer}>
-          <Flexbox style={styles.infoBarOverlay}>
-          <div style={styles.info}>
-            <img style={styles.imgthumb} src={this.props.edamamfocus.image} />
-          </div>
 
+          <Flexbox style={styles.infoBarOverlay}>
             <div style={styles.info}>
               {this.props.edamamfocus.source} <div style={styles.infoLabel}><p><i>Source</i></p></div>
             </div>
@@ -207,7 +191,6 @@ return (
               {Math.floor(this.props.edamamfocus.calories)} <div style={styles.infoLabel}><p><i>Calories</i></p></div>
             </div>
           </Flexbox>
-          </div>
 
 
     <div style={styles.commentContainer}>
@@ -216,26 +199,6 @@ return (
           {tagsarr}
           </div>
 
-          <div >
-            {!this.props.fave && this.props.isauthenticated &&
-              <Flexbox style={styles.favePrompt}>
-                <IconButton>
-                  <FaveBorder onClick={(e)=>faveHandler(e,userid,recipeid)} color="red" />
-                </IconButton>
-                <div>Set this recipe as a favorite!</div>
-              </Flexbox>
-          }
-            {this.props.fave &&
-              <Flexbox style={styles.favePrompt}>
-                <IconButton>
-                  <ActionFavorite color="red" />
-                </IconButton>
-              <div>This recipe is a favorite!</div>
-              </Flexbox>
-        }
-
-      </div>
-
           <Flexbox style={styles.nutrition}>
               <div style={styles.commentHeader}>
                 Ingredients
@@ -243,7 +206,7 @@ return (
                   <List>
                     {ingredientarr}
                   </List>
-                  <a href={this.props.edamamfocus.url} target="_blank"><RaisedButton label="CREATE THIS RECIPE" fullWidth={true} /></a>
+                  <RaisedButton label="CREATE THIS RECIPE" fullWidth={true} onClick={this.props.actions.goToExternal(this.props.edamamfocus.url)} />
                   <div id="edamam-badge" data-color="transparent"></div>
                 </Paper>
               </div>
@@ -279,7 +242,7 @@ return (
           >
             {edamamdata[24].recipe.digest.map( (row, index) => (
               <TableRow key={index}>
-                <TableRowColumn><div style={styles.nutLabel}>{row.label}</div></TableRowColumn>
+                <TableRowColumn><b>{row.label}</b></TableRowColumn>
                 <TableRowColumn>{Math.floor(row.total)} {row.unit}</TableRowColumn>
                 <TableRowColumn>{Math.floor(row.daily)} %</TableRowColumn>
               </TableRow>
@@ -395,9 +358,6 @@ const styles = {
     alignItems: 'center',
     marginTop: 10,
   },
-  imgthumb: {
-    maxHeight: 250
-  },
   infoBar: {
     width:'100%',
     height:300,
@@ -411,11 +371,11 @@ const styles = {
     zIndex: 0
   },
   infoBarOverlay: {
-    width:'70%',
+    width:'100%',
     height:300,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     flexWrap: 'wrap',
     marginTop: -300,
     position: 'absolute',
@@ -449,31 +409,29 @@ const styles = {
   },
   ingredientsPaper: {
     fontSize: '15px',
+    backgroundColor: 'rgba(225, 225, 225, 0.4)'
   },
   nutritionDiv: {
     marginTop: '20px',
     width: '45%',
-    minWidth: '40%'
+    minWidth: '40%',
   },
   tablepaper: {
-    width: '100%'
+    width: '100%',
   },
   table: {
-    width: '100%'
+    width: '100%',
+    backgroundColor: 'rgba(225, 225, 225, 0.4)'
   },
   nutrition: {
     flexWrap: 'wrap',
     width: '100%',
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
   },
   infoContainer: {
     flexWrap: 'wrap-reverse',
     width: '90%'
-  },
-  favePrompt: {
-    alignItems: 'center',
-    flexWrap: 'no-wrap'
   },
   commentBox: {
     width: '100%',
@@ -485,14 +443,6 @@ const styles = {
     width: '70%',
     margin: 'auto',
     marginTop: '20px'
-  },
-  imgContainer: {
-    width: '70%',
-    margin: 'auto',
-    marginTop: -15
-  },
-  nutLabel: {
-    fontWeight: 'bold'
   },
   wrapper: {
     display: 'flex',

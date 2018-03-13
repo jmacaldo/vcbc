@@ -24,7 +24,6 @@ import Edafocus from '../../containers/EdamFocusContainer';
 import Focus from '../../containers/FocusContainer';
 import RecipeGrid from '../../containers/GridContainer'
 import TextField from 'material-ui/TextField';
-require('dotenv').config()
 
 
 

@@ -63,8 +63,6 @@ export default class Grid extends Component {
           <Link to={`/recipe/${tile.id}`}><GridTile
               key={tile.id}
               title={tile.title}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-              actionPosition="left"
               titlePosition="bottom"
               titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
               cols={tile.featured ? 2 : 1}
@@ -77,8 +75,6 @@ export default class Grid extends Component {
               <Link to={`/api/${tile.recipe.uri.split("#")[1]}`}><GridTile
               key={tile.recipe.uri}
               title={tile.recipe.label}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-              actionPosition="left"
               titlePosition="bottom"
               titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
               cols={tile.featured ? 2 : 1}

@@ -109,6 +109,20 @@ export const edamamdata = (edamam) => {
     return { type: EDAMAM, edamam}
 }
 
+export const logoutUser = () => {
+    return { type: NO_AUTH }
+}
+
+export const SET_FAVE_TRUE = "SET_FAVE_TRUE"
+export const setFaveTrue = () => {
+  return {type: SET_FAVE_TRUE }
+}
+
+export const SET_FAVE_FALSE = "SET_FAVE_FALSE"
+export const setFaveFalse = () => {
+  return {type: SET_FAVE_FALSE }
+}
+
 
 //load a user profile to state
 export const USER_PROFILE = "USER_PROFILE"
@@ -116,10 +130,22 @@ export const loaduserprofile = (user) => {
     return { type: USER_PROFILE, user}
 }
 
-//load recipes in profile
+//load local recipes in profile
 export const RECIPE_IN_PROFILE = "RECIPE_IN_PROFILE"
-export const loadrecipeinprofile = (recipes) => {
-    return { type: RECIPE_IN_PROFILE, recipes}
+export const loadrecipeinprofile = (userrecipes) => {
+    return { type: RECIPE_IN_PROFILE, userrecipes}
+}
+
+//load api recipes in profile
+export const API_RECIPE_IN_PROFILE = "API_RECIPE_IN_PROFILE"
+export const loadapirecipeinprofile = (apifaves) => {
+    return { type: API_RECIPE_IN_PROFILE, apifaves}
+}
+
+//set user local faves in to state
+export const LOAD_LOCAL_FAVES = "LOAD_LOCAL_FAVES"
+export const localfavetostate = (faves) => {
+    return { type: LOAD_LOCAL_FAVES, faves}
 }
 
 
@@ -358,11 +384,25 @@ export const loadUser =(username) =>{
     axios.post(`/api/user/findByUsername`, {username: username})
     .then(res => {
       dispatch(loaduserprofile(res.data))
+      axios.post(`/api/localFaves/loadfaves`, {id: res.data.id })
+      .then(res => {
+        dispatch(localfavetostate(res.data))
+        console.log('faves');
+        console.log(res);
+      })
       axios.post(`/api/recipe/findbyuserid`, {id: res.data.id})
       .then(res => {
-        console.log('recipe action:', res.data);
         dispatch(loadrecipeinprofile(res.data))
+        console.log('user recipes');
+        console.log(res);
       })
+      axios.post(`/api/apiFave/loadfaves`, {id: res.data.id})
+      .then(res => {
+        dispatch(loadapirecipeinprofile(res.data))
+        console.log('user api recipes');
+        console.log(res);
+      })
+
 
     })
   }
@@ -378,5 +418,76 @@ export const goToExternal =(url) =>{
 export const searchHandle =(query) =>{
   return dispatch => {
     axios.post(`/api/redirect`, {query:query})
+  }
+}
+
+//set a local recipe as a favorite
+export const localFave =(user, recipe) =>{
+  return dispatch => {
+  axios.post(`/api/localFaves`, {user:user, recipe:recipe})
+  .then(res => {
+    dispatch(setFaveTrue())
+  })
+  }
+}
+
+
+
+export const faveFalse = ()=>{
+  return dispatch => {
+    console.log('unmount fired!');
+    dispatch(setFaveFalse())
+  }
+}
+
+//check whether a local recipe is a fave
+export const isLocalFave =(user, recipe) =>{
+  console.log('local fave', user, recipe);
+  return dispatch => {
+  axios.post(`/api/localFaves/isLocalFave`, {user:user, recipe:recipe})
+  .then(res => {
+    if (res.data.id >= 1) {
+      console.log('fave found');
+      console.log(res.data);
+      dispatch(setFaveTrue())
+    } else {
+      console.log('no fave found');
+      console.log(res.data);
+    }
+  })
+  }
+}
+
+//set an api recipe as a favorite
+export const faveApi =(user, recipe, label, image) =>{
+  return dispatch => {
+    console.log(user,recipe,label,image);
+  axios.post(`/api/apiFave`, {
+    user:user,
+    recipe:recipe,
+    label: label,
+    image: image})
+    .then(res => {
+      dispatch(setFaveTrue())
+    })
+
+  }
+}
+
+//check whether an api recipe is a fave
+export const isApiFave =(user, recipe) =>{
+  return dispatch => {
+    console.log('is api fave', user, recipe);
+  axios.post(`/api/apiFave/isApiFave`, {user:user, recipe:recipe})
+  .then(res => {
+    if (res.data.id >= 1) {
+      console.log('fave found');
+      console.log(res.data);
+      dispatch(setFaveTrue())
+    } else {
+      console.log('no fave found');
+      console.log(res.data);
+    }
+  })
   }
 }
