@@ -12,6 +12,8 @@ const url = process.env.REACT_APP_DATABASE_URL || `postgres://localhost:5432/${n
 
 console.log(chalk.yellow(`Opening database connection to ${url}${name}`));
 
+console.log(process.env.REACT_APP_DATABASE_NAME);
+
 // create the database instance
 const db = module.exports = new Sequelize(url, {
   logging: debug, // export DEBUG=sql in the environment to get SQL queries
