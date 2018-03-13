@@ -130,10 +130,16 @@ export const loaduserprofile = (user) => {
     return { type: USER_PROFILE, user}
 }
 
-//load recipes in profile
+//load local recipes in profile
 export const RECIPE_IN_PROFILE = "RECIPE_IN_PROFILE"
 export const loadrecipeinprofile = (userrecipes) => {
     return { type: RECIPE_IN_PROFILE, userrecipes}
+}
+
+//load api recipes in profile
+export const API_RECIPE_IN_PROFILE = "API_RECIPE_IN_PROFILE"
+export const loadapirecipeinprofile = (apifaves) => {
+    return { type: API_RECIPE_IN_PROFILE, apifaves}
 }
 
 //set user local faves in to state
@@ -390,11 +396,13 @@ export const loadUser =(username) =>{
         console.log('user recipes');
         console.log(res);
       })
-      // .then(res => {
-      // //  console.log(res.data);
-      // //  axios.post(`api/localFaves/userLocalFaves`, {id: res.data.id })
-      //   //console.log(res.data);
-      // })
+      axios.post(`/api/apiFave/loadfaves`, {id: res.data.id})
+      .then(res => {
+        dispatch(loadapirecipeinprofile(res.data))
+        console.log('user api recipes');
+        console.log(res);
+      })
+
 
     })
   }

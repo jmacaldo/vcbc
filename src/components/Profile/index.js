@@ -98,6 +98,22 @@ export default class Profile extends Component {
                     {tile.recipe.title}
                   </ListItem>
                   ))}
+
+                  {this.props.apifaves.map((tile) => (
+                <ListItem
+                  disabled={true}
+                  leftAvatar={
+                    <Avatar src={tile.image} />
+                  }
+                >
+                  {tile.label}
+                </ListItem>
+                ))}
+
+
+
+
+
                 </List>
               </Paper>
               </div>

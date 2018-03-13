@@ -1,4 +1,4 @@
-import { EXPRESS_TEST_RESULTS,SET_FAVE_FALSE, LOAD_LOCAL_FAVES, LOAD_LOCAL_FAVESmSET_FAVE_FALSE, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS, COMMENTS, FOOD2FORK, EDAMAM, EDAMAM_FOCUS, USER_PROFILE,RECIPE_IN_PROFILE, SET_FAVE_TRUE } from '../actions';
+import { EXPRESS_TEST_RESULTS,API_RECIPE_IN_PROFILE,SET_FAVE_FALSE, LOAD_LOCAL_FAVES, LOAD_LOCAL_FAVESmSET_FAVE_FALSE, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS, COMMENTS, FOOD2FORK, EDAMAM, EDAMAM_FOCUS, USER_PROFILE,RECIPE_IN_PROFILE, SET_FAVE_TRUE } from '../actions';
 const initialState = {
     results: '',
     isAuthenticated: false,
@@ -14,7 +14,8 @@ const initialState = {
     profile: [],
     recipeinprofile: [],
     isFave: false,
-    localUserFaves: []
+    localUserFaves: [],
+    apiUserFaves: []
 }
 
 const demo = (state = initialState, action) => {
@@ -45,6 +46,8 @@ const demo = (state = initialState, action) => {
             return {...state,  isFave: false}
         case LOAD_LOCAL_FAVES:
             return {...state,  localUserFaves: action.faves}
+        case API_RECIPE_IN_PROFILE:
+            return {...state, apiUserFaves: action.apifaves}
         default:
             return state
     }

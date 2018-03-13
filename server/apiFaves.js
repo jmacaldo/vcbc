@@ -24,19 +24,6 @@ router.post('/', function(req, res, next) {
   });
 });
 
-//add an api recipe as a favorite
-router.post('/api', function(req, res, next) {
-  Favorite.sync().then(function(){
-    Favorite.create({
-      user_id: req.body.user,
-      apiID: req.body.recipe
-
-    }).then(result => {
-        res.status(200).send(result);
-    })
-    .catch(next);
-  });
-});
 
 //check whether local recipe is a favorite
 router.post('/isApiFave', function(req, res, next) {
@@ -49,6 +36,23 @@ router.post('/isApiFave', function(req, res, next) {
       }
     }).then(result => {
       console.log('if api fave backend');
+      console.log(result);
+        res.status(200).send(result);
+    })
+    .catch(next);
+  });
+});
+
+//load all favorite api recipes in the users profile page
+router.post('/loadfaves', function(req, res, next) {
+  console.log('load user local faves fired!', req.body.id);
+  ApiFaves.sync().then(function(){
+    ApiFaves.findAll({
+      include: [Users],
+      where: {
+        user_id: req.body.id,
+      }
+    }).then(result => {
       console.log(result);
         res.status(200).send(result);
     })

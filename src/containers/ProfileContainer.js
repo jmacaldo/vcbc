@@ -25,7 +25,8 @@ function mapStateToProps(state) {
     isEdamFocus: state.demo.isEdamFocus,
     profile: state.demo.profile,
     recipeinprofile:  state.demo.recipeinprofile,
-    userfaves: state.demo.localUserFaves
+    userfaves: state.demo.localUserFaves,
+    apifaves: state.demo.apiUserFaves
 
   }
 }
