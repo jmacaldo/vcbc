@@ -4,6 +4,7 @@ import ActionGrade from 'material-ui/svg-icons/action/grade';
 import ContentSend from 'material-ui/svg-icons/content/send';
 import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import ContentCreate from 'material-ui/svg-icons/content/create';
+import AccountIcon from 'material-ui/svg-icons/action/account-circle';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
@@ -133,13 +134,11 @@ this.setState({
           }
           {this.props.isauthenticated &&
             <div>
-              <Link to={`/profile/${this.props.user.username}`}><MenuItem onClick={this.props.actions.submitbtn} primaryText="My profile" leftIcon={<ContentCreate />} /></Link>
+              <Link to={`/profile/${this.props.user.username}`}><MenuItem onClick={this.props.actions.submitbtn} primaryText="My profile" leftIcon={<AccountIcon />} /></Link>
               <MenuItem onClick={this.props.actions.submitbtn} primaryText="Submit a recipe" leftIcon={<ContentCreate />} />
               <MenuItem primaryText="Logout" onClick={this.props.actions.logoutUser} leftIcon={<ContentDrafts />} />
             </div>
           }
-          <Divider inset={true} />
-          <MenuItem onClick={this.props.actions.toolsbtn} primaryText="Recipe Tools" leftIcon={<ContentInbox />} />
         </Menu>
     </Popover>
 

@@ -30,6 +30,8 @@ import {
 import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
 
+import ActionFavorite from 'material-ui/svg-icons/action/favorite';
+import FaveBorder from 'material-ui/svg-icons/action/favorite-border';
 
 
 export default class ApiRecipe extends Component {
@@ -156,6 +158,12 @@ console.log(newRating)
 console.log(this.state.rating);
 }
 
+const faveHandler =(e,user,recipe) =>{
+  e.preventDefault();
+  this.props.actions.faveApi(user,this.props.edamamfocus.uri, this.props.edamamfocus.label, this.props.edamamfocus.image)
+}
+
+
 
 return (
   <div style={styles.main}>
@@ -166,7 +174,7 @@ return (
         <GridList cols={1} cellHeight='300'>
             <GridTile
               key={this.props.edamamfocus.uri}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+              actionIcon={<IconButton><StarBorder onClick={(e)=>faveHandler(e,userid,recipeid)} color="white" /></IconButton>}
               actionPosition="right"
               titlePosition="top"
               titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
@@ -202,6 +210,26 @@ return (
         <div style={styles.wrapper}>
           {tagsarr}
           </div>
+
+          <div >
+            {!this.props.fave && this.props.isauthenticated &&
+              <Flexbox style={styles.favePrompt}>
+                <IconButton>
+                  <FaveBorder onClick={(e)=>faveHandler(e,userid,recipeid)} color="red" />
+                </IconButton>
+                <div>Set this recipe as a favorite!</div>
+              </Flexbox>
+          }
+            {this.props.fave &&
+              <Flexbox style={styles.favePrompt}>
+                <IconButton>
+                  <ActionFavorite color="red" />
+                </IconButton>
+              <div>This recipe is a favorite!</div>
+              </Flexbox>
+        }
+
+      </div>
 
           <Flexbox style={styles.nutrition}>
               <div style={styles.commentHeader}>
@@ -437,6 +465,10 @@ const styles = {
   infoContainer: {
     flexWrap: 'wrap-reverse',
     width: '90%'
+  },
+  favePrompt: {
+    alignItems: 'center',
+    flexWrap: 'no-wrap'
   },
   commentBox: {
     width: '100%',

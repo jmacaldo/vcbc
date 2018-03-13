@@ -9,7 +9,6 @@ const router = require('express').Router()
 
 //add a local recipe comment to the DB
 router.post('/submit', function(req, res, next) {
-  console.log('comment backend!', req.body.comment, req.body.recipeid, req.body.userid);
   Comments.sync().then(function(){
     Comments.create({
       comment: req.body.comment.comment,
@@ -28,7 +27,6 @@ router.post('/submit', function(req, res, next) {
 
 //add an edamam recipe comment to the DB
 router.post('/edamamcomment', function(req, res, next) {
-  console.log('edamam comment backend!', req.body.comment, req.body.recipeid, req.body.userid);
   Comments.sync().then(function(){
     Comments.create({
       comment: req.body.comment.comment,

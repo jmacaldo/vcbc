@@ -14,19 +14,13 @@ import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
 import Nav from '../../containers/NavContainer'
-import Cows from './farmBlur.jpg'
-
-
+import Cows from './cows.jpg'
 
 export default class Profile extends Component {
 
   componentWillMount(){
     this.props.actions.loadUser(this.props.match.params.username);
-    document.body.style.backgroundImage = `url('${Cows} ')`;
-    document.body.style.backgroundRepeat = 'no-repeat';
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundAttachment = 'fixed';
-
+    document.body.style.backgroundColor = "rgb(247,247,247)";
   }
 
   render() {
@@ -38,39 +32,80 @@ export default class Profile extends Component {
 
 
       <div>
+      <div style={styles.nav}>
+        <Nav />
+      </div>
+          <GridList cols={1} cellHeight='400'>
+              <GridTile
+                titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                titleStyle={styles.gridTitle}
+              >
+                <img style={styles.splash} src={Cows} />
+              </GridTile>
+            </GridList>
 
-            <Flexbox style={styles.overlay}>
-              <div style={styles.container}>
-                <Nav />
-              </div>
 
-              <div style={styles.avatar}>
-                  <Avatar style={styles.avatar} size={120} src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.profile.img} />
-                    {this.props.profile.username}
-            </div>
+            <Flexbox style={styles.infoBar}>
+
             </Flexbox>
 
-            <Paper style={styles.box} zDepth={3}>
+            <Flexbox style={styles.overlay}>
+              <div style={styles.avatar}>
+                  <Avatar style={styles.avatar} size={120} src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.profile.img} />
+              </div>
+              <div style={styles.username}>
+                  {this.props.profile.username}
+              </div>
+            </Flexbox>
+
+            <Flexbox style={styles.twocolumns}>
+
+              <div style={styles.column}>
               <div style={styles.headerText}>
                 Uploads ({this.props.recipeinprofile.length})
               </div>
-              <List>
-                  {this.props.recipeinprofile.map((tile) => (
-    <ListItem
-      disabled={true}
-      leftAvatar={
-        <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.img} />
-      }
-    >
-      {tile.title}
-    </ListItem>
-    ))}
+
+              <Paper style={styles.nav} zDepth={3}>
+                <List>
+                    {this.props.recipeinprofile.map((tile) => (
+                  <ListItem
+                    disabled={true}
+                    leftAvatar={
+                      <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.img} />
+                    }
+                  >
+                    {tile.title}
+                  </ListItem>
+                  ))}
+                </List>
+              </Paper>
+              </div>
+
+              <div style={styles.column}>
+              <div style={styles.headerText}>
+                Favorites ({this.props.userfaves.length})
+              </div>
+
+              <Paper style={styles.container} zDepth={3}>
+                <List>
+                    {this.props.userfaves.map((tile) => (
+                  <ListItem
+                    disabled={true}
+                    leftAvatar={
+                      <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.recipe.img} />
+                    }
+                  >
+                    {tile.recipe.title}
+                  </ListItem>
+                  ))}
+                </List>
+              </Paper>
+              </div>
+            </Flexbox>
 
 
-  </List>
 
 
-            </Paper>
 
 
       </div>
@@ -101,6 +136,15 @@ const styles = {
     opacity: .5,
     zIndex: -3
   },
+  twocolumns: {
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    alignItems: 'stretch'
+  },
+  column: {
+    minWidth: 300,
+    width: '40%'
+  },
   overlay: {
     width:'100%',
     height:400,
@@ -108,6 +152,7 @@ const styles = {
     alignItems: 'center',
     flexWrap: 'wrap',
     flexDirection: 'column',
+    marginTop:-402,
     zIndex: 10,
     position: 'relative',
   },
@@ -119,22 +164,22 @@ const styles = {
     padding: 0
   },
   headerText: {
-    padding: '20px',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    color: 'white'
+    width: '80%',
+    margin: 'auto',
+    marginTop: 40
   },
   container: {
     width: '80%',
     margin: 'auto',
     alignItems: 'center',
     marginTop: 10,
+    marginBottom: 100
   },
-  box: {
+  nav: {
     width: '80%',
     margin: 'auto',
     alignItems: 'center',
     marginTop: 10,
-    backgroundColor: 'rgba(225, 225, 225, 0.4)'
   },
   username: {
     fontSize: '30px',
@@ -185,8 +230,7 @@ const styles = {
   },
   root: {
     margin: 'auto',
-    width: '100vw',
-
+    width: '100vw'
   },
   title: {
     height: 300

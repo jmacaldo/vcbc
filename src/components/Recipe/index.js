@@ -17,6 +17,8 @@ import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
 import Nav from '../../containers/NavContainer'
+import ActionFavorite from 'material-ui/svg-icons/action/favorite';
+import FaveBorder from 'material-ui/svg-icons/action/favorite-border';
 
 export default class Recipe extends Component {
 
@@ -28,6 +30,11 @@ export default class Recipe extends Component {
     this.props.actions.findbyid(this.props.match.params.id)
     this.props.actions.findcommentsbyrecipe(this.props.match.params.id)
     document.body.style.backgroundColor = "rgb(247,247,247)";
+    this.props.actions.isLocalFave(this.props.user.id, this.props.match.params.id)
+  }
+
+  componentWillUnmount(){
+    this.props.actions.faveFalse()
   }
 
 
@@ -42,7 +49,6 @@ export default class Recipe extends Component {
 
     let tagsarr = [];
 
-    console.log(this.props);
 
     if (this.props.recipeFocus.tags){
 
@@ -117,6 +123,11 @@ console.log(avgrating);
     let recipeid = this.props.recipeFocus.id;
     let userid = this.props.user.id;
 
+  const faveHandler =(e,user,recipe) =>{
+    e.preventDefault();
+    this.props.actions.localFave(user,recipe)
+  }
+
 
 
 
@@ -134,7 +145,7 @@ console.log(avgrating);
                 <GridTile
                   key={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img}
                   title={this.props.recipeFocus.title}
-                  actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                  actionIcon={<IconButton><StarBorder onClick={(e)=>faveHandler(e,recipeid,userid)} color="white" /></IconButton>}
                   actionPosition="right"
                   titlePosition="top"
                   titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
@@ -161,6 +172,25 @@ console.log(avgrating);
             <div style={styles.wrapper}>
               {tagsarr}
               </div>
+              <div >
+                {!this.props.fave && this.props.isauthenticated &&
+                  <Flexbox style={styles.favePrompt}>
+                    <IconButton>
+                      <FaveBorder onClick={(e)=>faveHandler(e,userid,recipeid)} color="red" />
+                    </IconButton>
+                    <div>Set this recipe as a favorite!</div>
+                  </Flexbox>
+              }
+                {this.props.fave && this.props.isauthenticated &&
+                  <Flexbox style={styles.favePrompt}>
+                    <IconButton>
+                      <ActionFavorite color="red" />
+                    </IconButton>
+                  <div>This recipe is a favorite!</div>
+                  </Flexbox>
+            }
+
+          </div>
           {this.props.isauthenticated &&
             <Paper style={styles.commentBox} zDepth={3}>
 
@@ -284,6 +314,10 @@ const styles = {
   infoContainer: {
     flexWrap: 'wrap-reverse',
     width: '90%'
+  },
+  favePrompt: {
+    alignItems: 'center',
+    flexWrap: 'no-wrap'
   },
   commentBox: {
     maxWidth: '1000px',
