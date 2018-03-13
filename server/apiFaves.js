@@ -39,16 +39,16 @@ router.post('/api', function(req, res, next) {
 });
 
 //check whether local recipe is a favorite
-router.post('/isLocalFave', function(req, res, next) {
+router.post('/isApiFave', function(req, res, next) {
   console.log('is local fave fired!', req.body.user, req.body.recipe);
-  Favorite.sync().then(function(){
-    Favorite.findOne({
+  ApiFaves.sync().then(function(){
+    ApiFaves.findOne({
       where: {
         user_id: req.body.user,
-        recipe_id: req.body.recipe
+        apiID: req.body.recipe
       }
     }).then(result => {
-      console.log('res backend');
+      console.log('if api fave backend');
       console.log(result);
         res.status(200).send(result);
     })

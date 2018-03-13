@@ -423,21 +423,7 @@ export const localFave =(user, recipe) =>{
   }
 }
 
-//set an api recipe as a favorite
-export const faveApi =(user, recipe, label, image) =>{
-  return dispatch => {
-    console.log(user,recipe,label,image);
-  axios.post(`/api/apiFave`, {
-    user:user,
-    recipe:recipe,
-    label: label,
-    image: image})
-    .then(res => {
-      dispatch(setFaveTrue())
-    })
 
-  }
-}
 
 export const faveFalse = ()=>{
   return dispatch => {
@@ -464,20 +450,36 @@ export const isLocalFave =(user, recipe) =>{
   }
 }
 
+//set an api recipe as a favorite
+export const faveApi =(user, recipe, label, image) =>{
+  return dispatch => {
+    console.log(user,recipe,label,image);
+  axios.post(`/api/apiFave`, {
+    user:user,
+    recipe:recipe,
+    label: label,
+    image: image})
+    .then(res => {
+      dispatch(setFaveTrue())
+    })
+
+  }
+}
+
 //check whether an api recipe is a fave
 export const isApiFave =(user, recipe) =>{
   return dispatch => {
     console.log('is api fave', user, recipe);
-  // axios.post(`/api/localFaves/isLocalFave`, {user:user, recipe:recipe})
-  // .then(res => {
-  //   if (res.data.id >= 1) {
-  //     console.log('fave found');
-  //     console.log(res.data);
-  //     dispatch(setFaveTrue())
-  //   } else {
-  //     console.log('no fave found');
-  //     console.log(res.data);
-  //   }
-  // })
+  axios.post(`/api/apiFave/isApiFave`, {user:user, recipe:recipe})
+  .then(res => {
+    if (res.data.id >= 1) {
+      console.log('fave found');
+      console.log(res.data);
+      dispatch(setFaveTrue())
+    } else {
+      console.log('no fave found');
+      console.log(res.data);
+    }
+  })
   }
 }
