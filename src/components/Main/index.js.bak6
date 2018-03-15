@@ -1,0 +1,199 @@
+import React, { Component } from 'react';
+import classnames from 'classnames';
+import { Link } from 'react-router-dom';
+import { Control, Form, actions } from 'react-redux-form';
+import './style.css';
+import PropTypes from 'prop-types';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlexView from 'react-flexview';
+import Flexbox from 'flexbox-react';
+import BottomNavigationExampleSimple from '../Nav/bottomnav';
+import Paper from 'material-ui/Paper';
+import LoadingGif from './loading.gif'
+import Chip from 'material-ui/Chip';
+import AddRecipe from './addrecipe';
+import Search from '../../containers/SearchContainer';
+import Icon from 'material-ui/svg-icons/action/gif'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import ReactS3Uploader from 'react-s3-uploader';
+import Edafocus from '../../containers/EdamFocusContainer';
+import Focus from '../../containers/FocusContainer';
+import RecipeGrid from '../../containers/GridContainer'
+import TextField from 'material-ui/TextField';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import { Jumbotron, Navbar, NavItem, MenuItem, NavDropdown, Nav } from 'react-bootstrap';
+import splash from './splash01.jpg'
+
+
+
+
+class Login extends Component {
+
+  componentWillMount(){
+    document.body.style.backgroundColor = "rgb(247,247,247)";
+  }
+
+
+
+  render() {
+
+
+
+    const { className, ...props } = this.props;
+    let data = this.props.allrecipes
+    return (
+      <div className={classnames('App', className)} {...props}>
+          <div>
+            <div>
+              <Navbar fixedTop collapseOnSelect>
+  <Navbar.Header>
+    <Navbar.Brand>
+      <a href="#brand">VCBC</a>
+    </Navbar.Brand>
+    <Navbar.Toggle />
+  </Navbar.Header>
+  <Navbar.Collapse>
+    <Nav>
+    </Nav>
+    <Nav pullRight>
+      <NavItem eventKey={1} href="#">
+        Login
+      </NavItem>
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>
+
+              <Jumbotron style={styles.jumbo}>
+                <div style={styles.search}>
+                  <Search />
+                </div>
+
+
+              </Jumbotron>
+
+            </div>
+              <Flexbox>
+                <div style={sectionStyle}>
+
+                   {!this.props.allrecipes &&
+                     <img style={styles.loadingGif} src={LoadingGif} />
+                   }
+
+
+                  <RecipeGrid />
+                </div>
+               </Flexbox>
+      </div>
+
+
+
+
+
+
+      </div> //this is the last closing div
+    );
+  }
+}
+
+//style objects
+const cardStyle = {
+  width: '25vw',
+  minWidth: '400px'
+}
+
+const cardImgStyle ={
+  display: 'block',
+  maxWidth: '100%',
+  maxHeight: '100%'
+}
+
+const sectionStyle = {
+  margin: 'auto',
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignItems: 'flex-start',
+  alignContent: 'flex-start',
+  width: '100vw',
+  position: 'absolute',
+  zIndex: -2
+
+
+  // border: 'dotted',
+  // borderWidth: 1,
+  // borderColor: 'red'
+}
+
+
+
+const styles = {
+  chip: {
+    margin: 4,
+  },
+  tile: {
+    height: '600px'
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  tileImg: {
+    height: 400
+  },
+  headLine: {
+    color: 'white',
+    display: 'block',
+    margin: 'auto'
+  },
+  headLineSpan: {
+    backgroundColor: 'black'
+  },
+  jumbo: {
+    backgroundImage: `url('${splash} ')`,
+    backgroundSize: 'cover',
+    height: 480
+  },
+  search: {
+    backgroundColor: 'rgba(240,240,240,0.8)',
+    width: '70%',
+    display: 'block',
+    margin: 'auto',
+    marginTop: 150
+  },
+  nav: {
+    width: '98%',
+    margin: 'auto',
+    alignItems: 'center',
+  },
+  bsbar: {
+    backgroundColor: 'white',
+    color: 'black'
+  },
+  loadingGif: {
+    margin:'auto',
+    alignSelf: 'center',
+    marginTop: 300
+  }
+};
+
+const rotw = {
+  width: 400
+}
+
+const paper = {
+  padding: 30,
+  paddingTop: 10,
+  marginLeft: 40,
+  marginTop: 20
+}
+
+
+Login.propTypes = {
+  isauthenticated: PropTypes.bool
+};
+
+export default Login;

@@ -7,7 +7,6 @@ const router = require('express').Router()
 
 //passport js login and hashed password compare
 router.post('/login', function(req, res, next) {
-  console.log('login backend fired!', req.body.userlogin.username);
   Users.findOne({
     where: {
       username: req.body.userlogin.username
@@ -16,8 +15,19 @@ router.post('/login', function(req, res, next) {
   .then(function(rows) {
     bcrypt.compare(req.body.userlogin.password, rows.password, function(err, result) {
       	if(err) return err;
-      	console.log(rows);
-        res.status(200).send(rows);
+
+
+        if (result===false){
+          console.log('wrong password');
+          res.status(401).send(rows);
+        } else {
+          console.log('correct password');
+          res.status(200).send(rows);
+
+        }
+
+
+
   	});
   })
   .catch(next);

@@ -1,4 +1,4 @@
-import { EXPRESS_TEST_RESULTS,API_RECIPE_IN_PROFILE,SET_FAVE_FALSE, LOAD_LOCAL_FAVES, LOAD_LOCAL_FAVESmSET_FAVE_FALSE, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS, COMMENTS, FOOD2FORK, EDAMAM, EDAMAM_FOCUS, USER_PROFILE,RECIPE_IN_PROFILE, SET_FAVE_TRUE } from '../actions';
+import { EXPRESS_TEST_RESULTS,USERNAME_AVAIL,USERNAME_TAKEN,API_RECIPE_IN_PROFILE,SET_FAVE_FALSE, LOAD_LOCAL_FAVES, LOAD_LOCAL_FAVESmSET_FAVE_FALSE, DB_TEST_RESULTS, EXPRESS_TEST_ERROR, DB_TEST_ERROR, NO_AUTH, AUTHED, IS_REGISTERED, RECIPE_FIND_ALL, ACTIVATE_MAIN, ACTIVATE_REG, ACTIVATE_SUBMIT, ACTIVATE_TOOLS, RECIPE_FOCUS, COMMENTS, FOOD2FORK, EDAMAM, EDAMAM_FOCUS, USER_PROFILE,RECIPE_IN_PROFILE, SET_FAVE_TRUE } from '../actions';
 const initialState = {
     results: '',
     isAuthenticated: false,
@@ -15,13 +15,14 @@ const initialState = {
     recipeinprofile: [],
     isFave: false,
     localUserFaves: [],
-    apiUserFaves: []
+    apiUserFaves: [],
+    userError: false
 }
 
 const demo = (state = initialState, action) => {
     switch (action.type) {
         case NO_AUTH:
-            return { ...state, isAuthenticated: false, isRegistered: false }
+            return { ...state, isAuthenticated: false, isRegistered: false, user:[] }
         case AUTHED:
             return { ...state, user: action.user, isMainActivated: true, isRegistered: true, isAuthenticated: true, isRegActivated: false}
         case IS_REGISTERED:
@@ -48,9 +49,16 @@ const demo = (state = initialState, action) => {
             return {...state,  localUserFaves: action.faves}
         case API_RECIPE_IN_PROFILE:
             return {...state, apiUserFaves: action.apifaves}
+        case USERNAME_TAKEN:
+            return {...state, userError: true}
+        case USERNAME_AVAIL:
+            return {...state, userError: false}
         default:
             return state
     }
 }
+
+
+
 
 export default demo;

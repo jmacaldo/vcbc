@@ -12,7 +12,10 @@ function mapStateToProps(state) {
     detail: state.demo.detail,
     recipeFocus: state.demo.recipeFocus,
     comments: state.demo.comments,
-    fave: state.demo.isFave
+    fave: state.demo.isFave,
+    commentvalue: state.forms.comment.comment.value,
+    cooktimevalue: state.forms.comment.cooktime.value
+
 
   }
 }

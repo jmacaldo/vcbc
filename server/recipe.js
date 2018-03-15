@@ -13,7 +13,7 @@ router.post('/submit', function(req, res, next) {
     Recipe.create({
       title: req.body.recipe.title,
       tags: req.body.recipe.tags,
-      description: req.body.recipe.description,
+      url: req.body.recipe.url,
       source: req.body.recipe.source,
       yield: req.body.recipe.yield,
       cooktime: req.body.recipe.cooktime,

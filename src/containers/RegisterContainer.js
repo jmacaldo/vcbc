@@ -7,7 +7,8 @@ import Register from '../components/Register'
 function mapStateToProps(state) {
   return {
     results: state.demo.results,
-    isregistered: state.demo.isRegistered
+    isregistered: state.demo.isRegistered,
+    usererror: state.demo.userError
   }
 }
 

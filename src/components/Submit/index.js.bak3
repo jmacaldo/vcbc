@@ -1,0 +1,107 @@
+import React, { Component } from 'react';
+import classnames from 'classnames';
+import { Link } from 'react-router-dom';
+import { Control, Form, actions } from 'react-redux-form';
+import './style.css';
+import Nav from '../../containers/NavContainer'
+import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import ReactS3Uploader from 'react-s3-uploader';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import { isEmail, isEmpty } from 'validator';
+
+const required = str => !isEmpty(str);
+
+
+
+
+class Submit extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      labelerr: false,
+      tagserr: false,
+    };
+  }
+
+  handleSubmitRecipe(recipe) {
+		this.props.actions.submitrecipe(recipe, this.props.user.id, 'someimage.jpg');
+  }
+
+  onUploadFinish=(file)=>{
+    console.log(file.filename.split('/')[1])
+  }
+  handleSubmitFailed(){
+    console.log('form failed!');
+  }
+
+  render() {
+    const { className, ...props } = this.props;
+
+    console.log(this.props.titleValidate);
+
+    let ingredients = [];
+    let rows = [];
+
+    return (
+      <div className={classnames('Submit', className)} {...props}>
+        <div style={styles.nav}>
+          <Nav />
+        </div>
+        <div style={styles.main}>
+          <h1>Submit a recipe</h1>
+          <Form model="recipe" onSubmit={(recipe) => this.handleSubmitRecipe(recipe)}  onSubmitFailed={ () => this.handleSubmitFailed() }>
+
+            <label htmlFor="recipe.title">Recipe Image</label>
+            <ReactS3Uploader
+            signingUrl="/s3/sign"
+            signingUrlMethod="GET"
+            s3path="recipes/"
+            onFinish={this.onUploadFinish}
+            />
+          <label></label>
+
+            <label htmlFor="recipe.title">Recipe Name</label>
+            <Control.text validators={required} errorText={this.props.titleValidate? "" : "Recipe name is required"} component={TextField} model="recipe.title" id="recipe.title" />
+
+            <label htmlFor="recipe.tags">Tags</label>
+            <Control.text validators={required} errorText={this.props.tagsValidate? "" : "Tags are required"} component={TextField} model="recipe.tags" id="recipe.tags" />
+
+            <label htmlFor="recipe.source">Source</label>
+            <Control.text validators={required} errorText={this.props.sourceValidate? "" : "Source is required"} component={TextField} model="recipe.source" id="recipe.source" />
+
+            <label htmlFor="recipe.url">Source URL</label>
+            <Control.text validators={required} errorText={this.props.urlValidate? "" : "Source URL is required"} component={TextField} model="recipe.url" id="recipe.url" />
+
+            <label htmlFor="recipe.cooktime">Cook Time</label>
+            <Control type="number" validators={required} errorText={this.props.cooktimeValidate? "" : "Cook time is required"} component={TextField} model="recipe.cooktime" id="recipe.cooktime" />
+
+            <label htmlFor="recipe.yield">Yield</label>
+            <Control validators={required} errorText={this.props.yieldValidate? "" : "Yield is required"} component={TextField} type="number" model="recipe.yield" id="recipe.yield" />
+
+            <label></label>
+            <RaisedButton type="submit" label="Submit" fullWidth={false} />
+
+          </Form>
+        </div>
+      </div>
+    );
+  }
+}
+
+const styles = {
+  nav: {
+    width: '80%',
+    margin: 'auto',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  main: {
+    width: '80%',
+    margin: 'auto',
+  }
+}
+export default Submit;

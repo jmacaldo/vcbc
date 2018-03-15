@@ -19,7 +19,7 @@ const initialLoginState = {
 const initialRecipeState = {
   title: '',
   tags: '',
-  description: '',
+  url: '',
   source: '',
   yield: '',
   cooktime: ''
@@ -45,7 +45,6 @@ const Reducers = combineReducers({
       userreg: initialRegState,
       userlogin: initialLoginState,
       recipe: initialRecipeState,
-      ingredient: initialIngredientState,
       comment: initialCommentState
 
     })

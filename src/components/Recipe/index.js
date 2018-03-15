@@ -16,9 +16,12 @@ import TextField from 'material-ui/TextField';
 import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
-import Nav from '../../containers/NavContainer'
+import Bsnav from '../../containers/BsNavContainer';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import FaveBorder from 'material-ui/svg-icons/action/favorite-border';
+import bgr from './bgr.png'
+import {reset} from 'react-redux-form'
+
 
 export default class Recipe extends Component {
 
@@ -27,13 +30,14 @@ export default class Recipe extends Component {
   };
 
   componentWillMount(){
+    this.props.actions.faveFalse()
     this.props.actions.findbyid(this.props.match.params.id)
     this.props.actions.findcommentsbyrecipe(this.props.match.params.id)
-    document.body.style.backgroundColor = "rgb(247,247,247)";
     this.props.actions.isLocalFave(this.props.user.id, this.props.match.params.id)
   }
 
   componentWillUnmount(){
+    console.log('unmount fired');
     this.props.actions.faveFalse()
   }
 
@@ -127,36 +131,24 @@ console.log(avgrating);
     e.preventDefault();
     this.props.actions.localFave(user,recipe)
   }
-
-
-
-
-
-
-
-
     return (
       <div style={styles.main}>
-        <div style={styles.container}>
-          <Nav />
-        </div>
+        <Bsnav />
           <div style={styles.root}>
-            <GridList cols={1} cellHeight='400'>
+            <GridList cols={1} cellHeight='400' style={styles.list}>
                 <GridTile
                   key={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img}
                   title={this.props.recipeFocus.title}
-                  actionIcon={<IconButton><StarBorder onClick={(e)=>faveHandler(e,recipeid,userid)} color="white" /></IconButton>}
-                  actionPosition="right"
-                  titlePosition="top"
-                  titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                  titlePosition="bottom"
+                  titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
                   titleStyle={styles.gridTitle}
                 >
                   <img src={'https://s3.amazonaws.com/vcbc/recipes/'+this.props.recipeFocus.img} />
                 </GridTile>
               </GridList>
               <Flexbox style={styles.infoBar}>
-                <div style={styles.info}>
-                  {this.props.recipeFocus.source} <div style={styles.infoLabel}><p><i>Source</i></p></div>
+                <div style={styles.info} >
+                  <a target="_blank" href={this.props.recipeFocus.url}>{this.props.recipeFocus.source}</a> <div style={styles.infoLabel}><p><i>Source</i></p></div>
                 </div>
                 <div style={styles.info}>
                   {this.props.recipeFocus.yield} <div style={styles.infoLabel}><p><i>Yield</i></p></div>
@@ -197,9 +189,9 @@ console.log(avgrating);
                 <Form model="comment" onSubmit={(comment) => this.props.actions.submitComment(comment, recipeid, userid, this.state.rating)}>
 
                   <label htmlFor="comment.comment">Share your experience when creating this recipe. Did you make any ingredient substitutions?</label>
-                  <Control.text model="comment.comment" id="comment.comment" component={TextField} hintText="Write your review or comment here"  fullWidth={true} multiLine={true} rows={2} rowsMax={4}/>
+                  <Control.text model="comment.comment" defaultValue={''}id="comment.comment" component={TextField} hintText="Write your review or comment here"  fullWidth={true} multiLine={true} rows={2} rowsMax={4}/>
                   <label htmlFor="comment.cooktime">How long did it take you to create this recipe?</label>
-                  <Control type="number" model="comment.cooktime" id="comment.cooktime" hintText="Enter time in minutes" component={TextField} />
+                  <Control type="number" model="comment.cooktime" defaultValue={''}id="comment.cooktime" hintText="Enter time in minutes" component={TextField} />
                     <ReactStars
                       count={5}
                       onChange={ratingChanged}
@@ -216,7 +208,7 @@ console.log(avgrating);
         {totalcooktime.length<=0 &&
 
 
-        <p>Login to be the first to rate and comment this recipe! </p>
+        <p>Be the first to rate and comment on this recipe! </p>
 
         }
 
@@ -248,6 +240,13 @@ console.log(avgrating);
             }
           </div>
         </div>
+        <GridList cols={1} cellHeight='200' style={styles.footer}>
+            <GridTile
+              key={2}
+            >
+              <img src={bgr} />
+            </GridTile>
+          </GridList>
       </div>
     );
   }
@@ -278,6 +277,9 @@ const styles = {
     alignItems: 'center',
     flexWrap: 'wrap'
   },
+  list: {
+    marginTop: 50
+  },
   info: {
     borderLeft: 1,
     borderRight: 1,
@@ -290,7 +292,9 @@ const styles = {
   },
   gridTitle: {
     fontSize: '30px',
-    marginTop: 15
+  },
+  footer: {
+    marginTop: '30vh',
   },
   container: {
     width: '80%',
@@ -300,7 +304,7 @@ const styles = {
   },
   infoLabel: {
     fontSize: '15px',
-    marginTop: -15,
+    marginTop: 0,
     color: 'rgb(200,200,200)'
   },
   commentHeader:{
@@ -346,6 +350,7 @@ const styles = {
   },
   root: {
     margin: 'auto',
+    marginTop: 10,
     width: '100vw'
   },
   title: {
