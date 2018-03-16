@@ -13,8 +13,9 @@ import TextField from 'material-ui/TextField';
 import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
-import Nav from '../../containers/NavContainer'
+import Bsnav from '../../containers/BsNavContainer';
 import Cows from './cows.jpg'
+import bgr from './bgr.png'
 
 export default class Profile extends Component {
 
@@ -32,23 +33,7 @@ export default class Profile extends Component {
 
 
       <div>
-      <div style={styles.nav}>
-        <Nav />
-      </div>
-          <GridList cols={1} cellHeight='400'>
-              <GridTile
-                titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                titleStyle={styles.gridTitle}
-              >
-                <img style={styles.splash} src={Cows} />
-              </GridTile>
-            </GridList>
-
-
-            <Flexbox style={styles.infoBar}>
-
-            </Flexbox>
-
+      <Bsnav />
             <Flexbox style={styles.overlay}>
               <div style={styles.avatar}>
                   <Avatar style={styles.avatar} size={120} src={'https://s3.amazonaws.com/vcbc/avatars/'+this.props.profile.img} />
@@ -58,70 +43,95 @@ export default class Profile extends Component {
               </div>
             </Flexbox>
 
-            <Flexbox style={styles.twocolumns}>
 
               <div style={styles.column}>
-              <div style={styles.headerText}>
-                Uploads ({this.props.recipeinprofile.length})
-              </div>
+                {this.props.recipeinprofile.length<=1 &&
+                  <div>There are no uploaded recipes</div>
+                }
 
-              <Paper style={styles.nav} zDepth={3}>
-                <List>
-                    {this.props.recipeinprofile.map((tile) => (
-                  <ListItem
-                    disabled={true}
-                    leftAvatar={
-                      <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.img} />
-                    }
-                  >
-                    {tile.title}
-                  </ListItem>
-                  ))}
-                </List>
-              </Paper>
+                {this.props.recipeinprofile.length>=1 &&
+                  <div>
+                  <div style={styles.headerText}>
+                    Uploads ({this.props.recipeinprofile.length})
+                  </div>
+
+                  <Paper style={styles.nav} zDepth={3}>
+                    <List>
+                        {this.props.recipeinprofile.map((tile) => (
+                      <ListItem
+                        disabled={true}
+                        leftAvatar={
+                          <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.img} />
+                        }
+                      >
+                        <a href={'/recipe/'+tile.id}>{tile.title}</a>
+                      </ListItem>
+                      ))}
+                    </List>
+                  </Paper>
+                  </div>
+
+                }
+
+
               </div>
 
               <div style={styles.column}>
-              <div style={styles.headerText}>
-                Favorites ({this.props.userfaves.length})
+                {this.props.userfaves.length +this.props.apifaves.length <=1 &&
+                  <div>There are no favorited recipes</div>
+                }
+
+                {this.props.userfaves.length +this.props.apifaves.length >=1 &&
+                  <div>
+                    <div style={styles.headerText}>
+                      Favorites ({this.props.userfaves.length+this.props.apifaves.length})
+                    </div>
+
+                    <Paper style={styles.container} zDepth={3}>
+                      <List>
+                          {this.props.userfaves.map((tile) => (
+                        <ListItem
+                          disabled={true}
+                          leftAvatar={
+                            <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.recipe.img} />
+                          }
+                        >
+                          <a href={'/recipe/'+tile.recipe.id}>{tile.recipe.title}</a>
+                        </ListItem>
+                        ))}
+
+                        {this.props.apifaves.map((tile) => (
+                      <ListItem
+                        disabled={true}
+                        leftAvatar={
+                          <Avatar src={tile.image} />
+                        }
+                      >
+                        <a href={'/api/'+tile.apiID.split("#")[1]}>{tile.label}</a>
+                      </ListItem>
+                      ))}
+
+
+
+
+
+                      </List>
+                    </Paper>
+
+                  </div>
+                }
+
               </div>
 
-              <Paper style={styles.container} zDepth={3}>
-                <List>
-                    {this.props.userfaves.map((tile) => (
-                  <ListItem
-                    disabled={true}
-                    leftAvatar={
-                      <Avatar src={'https://s3.amazonaws.com/vcbc/recipes/'+tile.recipe.img} />
-                    }
-                  >
-                    {tile.recipe.title}
-                  </ListItem>
-                  ))}
 
-                  {this.props.apifaves.map((tile) => (
-                <ListItem
-                  disabled={true}
-                  leftAvatar={
-                    <Avatar src={tile.image} />
-                  }
+
+            <GridList cols={1} cellHeight='200' style={styles.footer}>
+                <GridTile
+                  key={2}
                 >
-                  {tile.label}
-                </ListItem>
-                ))}
-
-
-
-
-
-                </List>
-              </Paper>
-              </div>
-            </Flexbox>
-
-
-
-
+                  <img src={bgr} />
+                </GridTile>
+              </GridList>
 
 
       </div>
@@ -136,8 +146,14 @@ export default class Profile extends Component {
 
 
 const styles = {
+
   chip: {
     margin: 4,
+  },
+  footer: {
+    marginTop: 40,
+    position: 'absolute',
+    bottom: 0
   },
   infoBar: {
     width:'100%',
@@ -159,18 +175,16 @@ const styles = {
   },
   column: {
     minWidth: 300,
-    width: '40%'
+    width: '60%',
+    margin: 'auto'
+
   },
   overlay: {
     width:'100%',
-    height:400,
     justifyContent: 'space-evenly',
     alignItems: 'center',
     flexWrap: 'wrap',
     flexDirection: 'column',
-    marginTop:-402,
-    zIndex: 10,
-    position: 'relative',
   },
   splash: {
     zIndex: -3
@@ -199,8 +213,7 @@ const styles = {
   },
   username: {
     fontSize: '30px',
-    color: 'white',
-    marginBottom: 100
+    color: 'black',
   },
   info: {
     marginTop: -10,

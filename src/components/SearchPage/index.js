@@ -12,7 +12,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { Link } from 'react-router-dom';
-import Nav from '../../containers/NavContainer'
+import Bsnav from '../../containers/BsNavContainer';
 
 export default class SearchPage extends Component {
   constructor(props) {
@@ -46,22 +46,20 @@ export default class SearchPage extends Component {
 
 
     return (
-      <div style={styles.root}>
-        <div style={styles.nav}>
-          <Nav />
-        </div>
-      <div>Showing search results for: {this.props.match.params.query} </div>
+      <div >
+        <Bsnav />
+      <h3 style={styles.header}>Showing search results for: {this.props.match.params.query} </h3>
+      <div style={styles.grid}>
         <GridList
           cols={4}
-          cellHeight={400}
-          padding={1}
+          cellHeight={200}
+          padding={20}
           style={styles.gridList}
         >
           {this.props.edamam.map((tile) => (
               <Link to={`/api/${tile.recipe.uri.split("#")[1]}`}><GridTile
               key={tile.recipe.uri}
               title={tile.recipe.label}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
               actionPosition="left"
               titlePosition="bottom"
               titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
@@ -73,6 +71,7 @@ export default class SearchPage extends Component {
           ))}
 
         </GridList>
+        </div>
       </div>
     );
   }
@@ -85,11 +84,14 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
-  nav: {
+  grid: {
     width: '80%',
-    margin: 'auto',
-    alignItems: 'center',
-    marginTop: 10,
+    margin: 'auto'
+  },
+  header: {
+    marginTop: 60,
+    display: 'block',
+    marginLeft: '35%'
   },
   gridImg: {
     opacity: 1

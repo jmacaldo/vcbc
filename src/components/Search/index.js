@@ -18,8 +18,8 @@ export default class Search extends Component {
   }
 
   searchHandle(query){
-    this.props.actions.searchHandle(query)
-    // window.location = `/search/`+query;
+    //this.props.actions.searchHandle(query)
+     window.location = `/search/`+query;
 
   }
 

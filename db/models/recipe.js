@@ -12,7 +12,7 @@ const Recipe = db.define('recipes', {
   	type: Sequelize.STRING,
   	allowNull: false
   },
-  description: {
+  url: {
   	type: Sequelize.TEXT,
   	allowNull: false
   },
@@ -29,7 +29,7 @@ const Recipe = db.define('recipes', {
   	allowNull: false
   },
   cooktime: {
-    type: Sequelize.STRING,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   featured: {

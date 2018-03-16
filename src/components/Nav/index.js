@@ -42,7 +42,6 @@ export default class Nav extends Component {
   }
 
   componentWillMount(){
-    window.addEventListener('load', this.props.actions.allrecipes);
   }
   handleSubmit(user) {
     this.props.actions.login(user);

@@ -8,6 +8,7 @@ function mapStateToProps(state) {
   return {
     results: state.demo.results,
     isauthenticated: state.demo.isAuthenticated,
+    isregistered: state.demo.isRegistered,
     user: state.demo.user
   }
 }

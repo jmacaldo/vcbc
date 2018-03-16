@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {reset} from 'react-redux-form';
+
 
 export const EXPRESS_TEST_START = "EXPRESS_TEST_START";
 export const expressTestStart = () => {
@@ -148,6 +150,21 @@ export const localfavetostate = (faves) => {
     return { type: LOAD_LOCAL_FAVES, faves}
 }
 
+//username uniqueness validation
+export const USERNAME_TAKEN = "USERNAME_TAKEN"
+export const userErr = () => {
+    return { type: USERNAME_TAKEN }
+}
+
+export const USERNAME_AVAIL = "USERNAME_AVAIL"
+export const userAvail = () => {
+    return { type: USERNAME_AVAIL }
+}
+
+
+
+
+
 
 
 //menu navigation handlers
@@ -178,7 +195,10 @@ export const register = (user) => {
     return dispatch => {
         axios.post(`/api/user/register`, {userreg: user, img:avatarimgarr[0]})
         .then( res => {
-          dispatch(reg(res.data))
+          console.log('auth response');
+            console.log(res.data);
+            dispatch(reg(res.data))
+
         })
     }
 }
@@ -203,16 +223,14 @@ export const recipeimg =(filename) =>{
 
 
 //submit a recipe
-export const submitrecipe = (recipe, id,img) => {
+export const submitrecipe = (recipe, id, img) => {
   console.log(id);
     return dispatch => {
-        axios.post(`/api/recipe/submit`, {recipe: recipe, id: id, img:recipeimgarr[0]})
+        axios.post(`/api/recipe/submit`, {recipe: recipe, id: id, img:img})
         .then( res => {
           dispatch(recipesubmit(res.data))
-        })
-        axios.post(`/api/recipe/findall`)
-        .then(res => {
-           dispatch(recipefindall(res.data))
+          window.location = '/recipe/'+res.data.id
+          console.log(res.data);
         })
     }
 }
@@ -269,6 +287,7 @@ export const edamamfocus = (detail) => {
       dispatch(edamfocustoprops(detail))
   }
 }
+
 
 //these relate to nav buttons
 export const loginbtn =()=> {
@@ -489,5 +508,23 @@ export const isApiFave =(user, recipe) =>{
       console.log(res.data);
     }
   })
+  }
+}
+
+//username validate
+
+export const userValidate = (user) =>{
+    return dispatch => {
+      axios.post(`/api/user/findByUsername`, {username: user})
+      .then( res => {
+        console.log(res.data);
+        if (res.data.id >= 1) {
+          console.log('user found');
+          dispatch(userErr())
+        } else {
+          dispatch(userAvail())
+          console.log('no user found');
+        }
+    })
   }
 }

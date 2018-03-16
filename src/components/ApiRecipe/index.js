@@ -14,7 +14,7 @@ import TextField from 'material-ui/TextField';
 import ReactStars from 'react-stars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Flexbox from 'flexbox-react';
-import Nav from '../../containers/NavContainer'
+import Bsnav from '../../containers/BsNavContainer';
 import edamamdata from './edamamdata.js'
 import bgr from './bgr.png'
 import cow from './cow01.jpg'
@@ -173,7 +173,7 @@ const faveHandler =(e,user,recipe) =>{
 return (
   <div style={styles.main}>
 
-    <div style={styles.nav}><Nav /></div>
+    <Bsnav />
 
       <div style={styles.root}>
         <GridList cols={1} cellHeight='300'>
@@ -239,7 +239,7 @@ return (
           <Flexbox style={styles.nutrition}>
               <div style={styles.commentHeader}>
                 Ingredients
-                <Paper style={styles.ingredientsPaper} zDepth={3}>
+                <Paper style={styles.ingredientsPaper} zDepth={3} rounded={true}>
                   <List>
                     {ingredientarr}
                   </List>
@@ -250,7 +250,7 @@ return (
 
               <div style={styles.nutritionDiv} >
                 Nutrition
-                <Paper style={styles.tablepaper} zDepth={3}>
+                <Paper style={styles.tablepaper} zDepth={3} rounded={true}>
                   <Table
           height={this.state.height}
           selectable={this.state.selectable}
@@ -396,7 +396,8 @@ const styles = {
     marginTop: 10,
   },
   imgthumb: {
-    maxHeight: 250
+    maxHeight: 250,
+    paddingTop: 30
   },
   infoBar: {
     width:'100%',
@@ -437,7 +438,7 @@ const styles = {
   },
   infoLabel: {
     fontSize: '15px',
-    marginTop: -15,
+    marginTop: -10,
     color: 'rgb(200,200,200)'
   },
   commentHeader:{
@@ -453,7 +454,8 @@ const styles = {
   nutritionDiv: {
     marginTop: '20px',
     width: '45%',
-    minWidth: '40%'
+    minWidth: '40%',
+    fontSize: '20px',
   },
   tablepaper: {
     width: '100%'
