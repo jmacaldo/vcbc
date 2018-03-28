@@ -8,6 +8,16 @@
 
 VCBC is a web app that allows users to share and rate their favorite plant-based recipes. I've solely built this project from the ground up. Main features include: user authentication, API-powered aggregated search, and the ability to rate and comment on recipes.
 
+# Features
+* User authentication using
+* Full CRUD functionality where users can post, edit, and delete their recipes
+* Commenting and tagging functionality for recipe posts
+
+# Technologies
+* React-Redux framework built on top of Node.JS
+* PostgreSQL with Sequelize as its ORM for recipe and comments storage
+* Amazon S3 for image storage
+* Search and external recipie data is handled by the Edamam API
 
 https://vcbc.herokuapp.com/
 
